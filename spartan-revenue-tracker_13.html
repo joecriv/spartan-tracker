@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spartan — Revenue Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111418;
+    --card: #161b22;
+    --border: #21262d;
+    --accent: #e8a020;
+    --accent2: #c4781a;
+    --red: #e05252;
+    --green: #3fb950;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --truck-j: #e8a020;
+    --truck-a: #58a6ff;
+    --truck-d: #bc8cff;
+    --truck-m: #3fb950;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; }
+
+/* HEADER */
+header {
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:18px 32px;
+  display:flex; align-items:center; gap:16px;
+  position:sticky; top:0; z-index:100;
+}
+.logo { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; color:var(--accent); }
+.logo span { color:var(--muted); font-size:14px; font-family:'DM Sans',sans-serif; letter-spacing:1px; margin-left:10px; }
+header .week-selector {
+  margin-left:auto; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+header label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+
+/* LAYOUT */
+.container { max-width:1380px; margin:0 auto; padding:28px 24px; }
+.grid-top { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:16px; margin-bottom:24px; }
+.grid-main { display:grid; grid-template-columns:450px 1fr; gap:20px; }
+
+/* STAT CARDS */
+.stat-card {
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  padding:20px 22px; position:relative; overflow:hidden;
+}
+.stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.stat-card.total::before  { background:var(--accent); }
+.stat-card.jobs::before   { background:var(--truck-a); }
+.stat-card.rev-hr::before { background:var(--truck-d); }
+.stat-card.hours::before  { background:var(--green); }
+.stat-label { font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:8px; }
+.stat-val { font-family:'Bebas Neue',sans-serif; font-size:38px; letter-spacing:1px; line-height:1; }
+.stat-sub { font-size:12px; color:var(--muted); margin-top:5px; }
+
+/* PANEL */
+.panel { background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+.panel-header {
+  padding:16px 20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.panel-title { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1.5px; color:var(--text); }
+.panel-body { padding:20px; }
+
+/* FORM */
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+.form-group { display:flex; flex-direction:column; gap:6px; }
+.form-group label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
+.form-group input, .form-group select {
+  background:var(--surface); border:1px solid var(--border); color:var(--text);
+  padding:9px 12px; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:14px;
+  transition:border-color .2s;
+}
+.form-group input:focus, .form-group select:focus { outline:none; border-color:var(--accent); }
+.form-group select option { background:var(--surface); }
+
+/* CREW SELECTOR */
+.crew-grid { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+.crew-chip {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:20px; padding:6px 14px; font-size:12px; cursor:pointer;
+  transition:all .15s; user-select:none; display:flex; align-items:center; gap:6px;
+}
+.crew-chip .dot { width:8px; height:8px; border-radius:50%; background:var(--muted); transition:background .15s; }
+.crew-chip:hover { border-color:var(--accent); }
+.crew-chip.selected { background:rgba(232,160,32,0.12); border-color:var(--accent); color:var(--accent); }
+.crew-chip.selected .dot { background:var(--accent); }
+.crew-chip[data-role="truck"].selected    { background:rgba(232,160,32,0.12); border-color:var(--accent);   color:var(--accent);   }
+.crew-chip[data-role="truck"].selected .dot    { background:var(--accent); }
+.crew-chip[data-role="measurer"].selected { background:rgba(63,185,80,0.12);  border-color:var(--green);    color:var(--green);    }
+.crew-chip[data-role="measurer"].selected .dot { background:var(--green); }
+.crew-chip[data-role="helper"].selected   { background:rgba(188,140,255,0.12);border-color:var(--truck-d);  color:var(--truck-d);  }
+.crew-chip[data-role="helper"].selected .dot   { background:var(--truck-d); }
+
+.section-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:8px; margin-top:14px; }
+
+.btn-primary {
+  width:100%; padding:12px; background:var(--accent); border:none;
+  border-radius:8px; color:#000; font-family:'DM Sans',sans-serif; font-weight:600;
+  font-size:14px; letter-spacing:.5px; cursor:pointer; margin-top:16px;
+  transition:background .2s, transform .1s;
+}
+.btn-primary:hover { background:var(--accent2); }
+.btn-primary:active { transform:scale(.98); }
+
+/* CREW ALLOCATION CARDS */
+.alloc-grid { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.alloc-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:10px;
+  padding:10px 12px; display:grid;
+  grid-template-columns: 90px 1fr 1fr 1fr;
+  align-items:center; gap:10px;
+  transition:border-color .2s;
+}
+.alloc-card.synced { border-color:rgba(63,185,80,0.4); }
+.alloc-name {
+  font-size:13px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.alloc-field { display:flex; flex-direction:column; gap:3px; }
+.alloc-label { font-size:9px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
+.alloc-input-wrap { display:flex; align-items:center; gap:4px; }
+.alloc-input {
+  width:100%; background:transparent; border:none; border-bottom:1px solid var(--border);
+  color:var(--text); font-family:'DM Mono',monospace; font-size:13px;
+  padding:2px 0; min-width:0;
+  transition:border-color .2s;
+}
+.alloc-input:focus { outline:none; border-bottom-color:var(--accent); }
+.alloc-input.pct-input { color:var(--truck-a); }
+.alloc-input.pct-input:focus { border-bottom-color:var(--truck-a); }
+.alloc-input.synced-val { color:var(--green); }
+.alloc-unit { font-size:11px; color:var(--muted); flex-shrink:0; }
+.alloc-rev-display {
+  font-family:'DM Mono',monospace; font-size:13px; color:var(--accent);
+  padding:2px 0; border-bottom:1px solid transparent;
+}
+.sync-pill {
+  font-size:9px; padding:2px 6px; border-radius:10px;
+  background:rgba(63,185,80,0.12); color:var(--green);
+  letter-spacing:.5px; text-transform:uppercase; white-space:nowrap;
+  margin-left:4px;
+}
+.alloc-total-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:6px 4px 0; border-top:1px solid var(--border); margin-top:4px;
+  font-size:11px; color:var(--muted);
+}
+.alloc-total-row .pct-sum { font-family:'DM Mono',monospace; font-size:12px; }
+.pct-sum.ok  { color:var(--green); }
+.pct-sum.bad { color:var(--red); }
+
+/* TRUCKS */
+.truck-list { display:flex; flex-direction:column; gap:12px; }
+.truck-row {
+  background:var(--surface); border:1px solid var(--border); border-radius:10px;
+  padding:16px 18px; display:grid; grid-template-columns:auto 1fr auto; gap:16px; align-items:center;
+}
+.truck-badge {
+  width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:1px;
+}
+.truck-info .truck-name { font-weight:600; font-size:15px; }
+.truck-info .truck-meta { font-size:12px; color:var(--muted); margin-top:2px; }
+.truck-rev { text-align:right; }
+.truck-rev .rev-val { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:1px; }
+.truck-rev .rev-sub { font-size:11px; color:var(--muted); }
+.truck-bar-wrap { grid-column:1/-1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+.truck-bar { height:100%; border-radius:2px; transition:width .5s ease; }
+
+/* EMPLOYEE TABLE */
+.emp-table { width:100%; border-collapse:collapse; }
+.emp-table th {
+  font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted);
+  text-align:left; padding:8px 12px; border-bottom:1px solid var(--border);
+}
+.emp-table td { padding:12px 12px; border-bottom:1px solid rgba(33,38,45,.5); font-size:13px; }
+.emp-table tr:last-child td { border-bottom:none; }
+.emp-table tr:hover td { background:rgba(255,255,255,.02); }
+.emp-name { font-weight:500; display:flex; align-items:center; gap:8px; }
+.role-badge {
+  font-size:10px; padding:2px 7px; border-radius:10px; text-transform:uppercase; letter-spacing:.8px;
+}
+.role-badge.truck    { background:rgba(232,160,32,.15); color:var(--accent); }
+.role-badge.measurer { background:rgba(63,185,80,.15);  color:var(--green); }
+.role-badge.helper   { background:rgba(188,140,255,.15);color:var(--truck-d); }
+.rev-hr-bar { display:flex; align-items:center; gap:8px; }
+.mini-bar { flex:1; height:6px; background:var(--border); border-radius:3px; overflow:hidden; max-width:80px; }
+.mini-bar-fill { height:100%; border-radius:3px; background:var(--accent); transition:width .5s; }
+
+/* JOBS LOG */
+.jobs-list { display:flex; flex-direction:column; gap:8px; max-height:340px; overflow-y:auto; }
+.jobs-list::-webkit-scrollbar { width:4px; }
+.jobs-list::-webkit-scrollbar-track { background:transparent; }
+.jobs-list::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+.job-item {
+  background:var(--surface); border:1px solid var(--border); border-radius:8px;
+  padding:12px 14px; display:flex; align-items:flex-start; gap:12px;
+}
+.job-truck-tag {
+  font-size:11px; padding:3px 8px; border-radius:4px; font-weight:600; letter-spacing:.5px; white-space:nowrap;
+}
+.job-info { flex:1; min-width:0; }
+.job-name { font-size:13px; font-weight:500; }
+.job-meta { font-size:11px; color:var(--muted); margin-top:2px; }
+.job-rev { font-family:'DM Mono',monospace; font-size:14px; color:var(--accent); white-space:nowrap; }
+.job-delete { background:none; border:none; color:var(--muted); cursor:pointer; font-size:16px; padding:0 4px; transition:color .15s; }
+.job-delete:hover { color:var(--red); }
+
+.empty-state { text-align:center; color:var(--muted); padding:40px 20px; font-size:13px; }
+.empty-icon { font-size:32px; margin-bottom:10px; }
+
+/* WEEK TOGGLE */
+.week-tabs { display:flex; gap:6px; flex-wrap:wrap; }
+.week-tab {
+  background:var(--surface); border:1px solid var(--border); color:var(--muted);
+  padding:5px 14px; border-radius:20px; font-size:12px; cursor:grab; transition:all .15s;
+  user-select:none;
+}
+.week-tab.active { background:var(--accent); border-color:var(--accent); color:#000; font-weight:600; }
+.week-tab:hover:not(.active) { border-color:var(--accent); color:var(--text); }
+.week-tab.dragging { opacity:0.4; cursor:grabbing; }
+.week-tab.drag-over { border-color:var(--truck-a); box-shadow:0 0 0 2px rgba(88,166,255,0.3); }
+
+.add-week-btn {
+  background:transparent; border:1px dashed var(--border); color:var(--muted);
+  padding:5px 14px; border-radius:20px; font-size:12px; cursor:pointer; transition:all .15s;
+}
+.add-week-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+.alert { background:rgba(232,160,32,.1); border:1px solid rgba(232,160,32,.3); border-radius:8px; padding:10px 14px; font-size:13px; color:var(--accent); margin-bottom:12px; display:none; }
+
+/* GOOGLE SHEETS SETUP PANEL */
+.sheets-setup {
+  background:rgba(88,166,255,0.06); border:1px solid rgba(88,166,255,0.2);
+  border-radius:10px; padding:14px 16px; margin-bottom:16px;
+}
+.sheets-setup-title {
+  font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--truck-a);
+  margin-bottom:10px; display:flex; align-items:center; gap:6px;
+}
+.sheets-setup-title .dot {
+  width:7px; height:7px; border-radius:50%; background:var(--truck-a);
+}
+.sheets-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.sheets-row:last-child { margin-bottom:0; }
+.sheets-name { font-size:12px; width:54px; color:var(--muted); flex-shrink:0; }
+.sheets-input {
+  flex:1; background:var(--surface); border:1px solid var(--border); color:var(--text);
+  padding:6px 10px; border-radius:6px; font-family:'DM Mono',monospace; font-size:11px;
+  transition:border-color .2s;
+}
+.sheets-input:focus { outline:none; border-color:var(--truck-a); }
+.sheets-status {
+  font-size:10px; width:16px; height:16px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  border:1px solid var(--border);
+}
+.sheets-status.ok  { border-color:var(--green); color:var(--green); }
+.sheets-status.err { border-color:var(--red);   color:var(--red);   }
+.sheets-status.loading { border-color:var(--muted); color:var(--muted); animation:spin .8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+.api-key-row { display:flex; gap:8px; align-items:center; margin-bottom:12px; }
+.api-key-row input {
+  flex:1; background:var(--surface); border:1px solid var(--border); color:var(--text);
+  padding:8px 12px; border-radius:8px; font-family:'DM Mono',monospace; font-size:12px;
+  transition:border-color .2s;
+}
+.api-key-row input:focus { outline:none; border-color:var(--truck-a); }
+.btn-secondary {
+  padding:8px 14px; background:rgba(88,166,255,0.12); border:1px solid rgba(88,166,255,0.3);
+  color:var(--truck-a); border-radius:8px; font-size:12px; cursor:pointer; white-space:nowrap;
+  font-family:'DM Sans',sans-serif; transition:all .15s;
+}
+.btn-secondary:hover { background:rgba(88,166,255,0.2); }
+
+.sync-info {
+  font-size:11px; color:var(--muted); margin-top:8px; padding:6px 10px;
+  background:rgba(63,185,80,0.06); border:1px solid rgba(63,185,80,0.15); border-radius:6px;
+  display:none;
+}
+.sync-info.visible { display:block; }
+
+/* WEEKLY REPORT */
+.report-week-block { padding:16px 20px; border-bottom:1px solid var(--border); }
+.report-week-block:last-child { border-bottom:none; }
+.report-week-title {
+  font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:1.5px;
+  color:var(--accent); margin-bottom:10px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.report-week-title .report-total {
+  font-size:13px; font-family:'DM Mono',monospace; color:var(--text); letter-spacing:0;
+}
+.report-installer-row {
+  display:grid; grid-template-columns:80px 1fr 80px 80px 80px;
+  align-items:center; gap:8px; padding:6px 0;
+  border-bottom:1px solid rgba(33,38,45,.4); font-size:12px;
+}
+.report-installer-row:last-child { border-bottom:none; }
+.report-installer-row .ri-name { font-weight:500; }
+.report-bar-wrap { height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+.report-bar-fill { height:100%; border-radius:3px; transition:width .4s; }
+.report-val { font-family:'DM Mono',monospace; text-align:right; }
+.report-rph { font-family:'DM Mono',monospace; text-align:right; font-size:11px; }
+.report-rph.good { color:var(--green); }
+.report-rph.ok   { color:var(--accent); }
+.report-rph.low  { color:var(--red); }
+.report-header-row {
+  display:grid; grid-template-columns:80px 1fr 80px 80px 80px;
+  gap:8px; padding:0 0 6px; border-bottom:1px solid var(--border);
+  font-size:9px; text-transform:uppercase; letter-spacing:1.2px; color:var(--muted);
+}
+.report-empty { text-align:center; color:var(--muted); padding:20px; font-size:12px; }
+
+@media(max-width:900px) {
+  .grid-top { grid-template-columns:1fr 1fr; }
+  .grid-main { grid-template-columns:1fr; }
+}
+@media(max-width:600px) {
+  .grid-top { grid-template-columns:1fr; }
+  header { padding:14px 16px; flex-wrap:wrap; }
+  .container { padding:16px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">SPARTAN <span>Revenue Tracker</span></div>
+  <div class="week-selector">
+    <label>Week</label>
+    <div class="week-tabs" id="weekTabs"></div>
+    <button class="add-week-btn" onclick="addWeek()">+ Week</button>
+  </div>
+</header>
+
+<div class="container">
+  <!-- STAT STRIP -->
+  <div class="grid-top">
+    <div class="stat-card total">
+      <div class="stat-label">Total Revenue</div>
+      <div class="stat-val" id="totalRev">$0</div>
+      <div class="stat-sub" id="totalJobs">0 jobs logged</div>
+    </div>
+    <div class="stat-card hours">
+      <div class="stat-label">Total Hours Worked</div>
+      <div class="stat-val" id="totalHours">0h</div>
+      <div class="stat-sub" id="avgHours">— per job avg</div>
+    </div>
+    <div class="stat-card rev-hr">
+      <div class="stat-label">Revenue / Hour</div>
+      <div class="stat-val" id="revPerHr">$0</div>
+      <div class="stat-sub">fleet average</div>
+    </div>
+    <div class="stat-card jobs">
+      <div class="stat-label">Top Earner</div>
+      <div class="stat-val" id="topEarner" style="font-size:28px;">—</div>
+      <div class="stat-sub" id="topEarnerRev">this week</div>
+    </div>
+  </div>
+
+  <div class="grid-main">
+    <!-- LEFT: LOG JOB FORM -->
+    <div>
+
+      <!-- GOOGLE SHEETS SETUP -->
+      <div class="panel" style="margin-bottom:16px;">
+        <div class="panel-header">
+          <div class="panel-title">Hours Sync</div>
+          <div style="font-size:11px;color:var(--muted);" id="syncLastFetched"></div>
+        </div>
+        <div class="panel-body" style="padding:14px 16px;">
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">
+            Paste your Google Sheets API key once. When you pick a date and select Sam, Luis, or Kim, their hours auto-fill from their sheets.
+          </p>
+
+          <div class="api-key-row">
+            <input type="password" id="apiKeyInput" placeholder="Google Sheets API Key (AIza...)" autocomplete="off">
+            <button class="btn-secondary" onclick="saveApiKey()">Save Key</button>
+          </div>
+
+          <div class="sheets-setup">
+            <div class="sheets-setup-title"><span class="dot"></span>Sheet IDs (auto-configured)</div>
+            <div class="sheets-row">
+              <span class="sheets-name">Sam</span>
+              <input class="sheets-input" id="sid_sam" value="1uxS_FY7aUsdbCgZVmG0LhS4MQCCk-kKeVzf1j33Cq-k" readonly>
+              <div class="sheets-status" id="sts_sam">—</div>
+            </div>
+            <div class="sheets-row">
+              <span class="sheets-name">Luis</span>
+              <input class="sheets-input" id="sid_luis" value="1USdDalNu9DI6M1nNIankbgZ5ybeqp06rO1GcYkEWbYg" readonly>
+              <div class="sheets-status" id="sts_luis">—</div>
+            </div>
+            <div class="sheets-row">
+              <span class="sheets-name">Kim</span>
+              <input class="sheets-input" id="sid_kim" value="1CMojVvA8qw4BzO6cyCL2N1yx52LBnuS7rqZSuXnMwgU" readonly>
+              <div class="sheets-status" id="sts_kim">—</div>
+            </div>
+          </div>
+
+          <div class="sync-info" id="syncInfo"></div>
+
+          <div class="sheets-setup" style="margin-top:10px;border-color:rgba(232,160,32,0.2);background:rgba(232,160,32,0.04);">
+            <div class="sheets-setup-title" style="color:var(--accent);">
+              <span class="dot" style="background:var(--accent);"></span>Installer Day Totals
+            </div>
+            <p style="font-size:11px;color:var(--muted);margin-bottom:10px;">Enter each installer's total hours worked on the selected day. Jobs on that day auto-split evenly — override % per job as needed.</p>
+            <div class="sheets-row" style="margin-bottom:10px;">
+              <span class="sheets-name" style="color:var(--muted);width:54px;flex-shrink:0;">Date</span>
+              <input type="date" id="installerDate" class="sheets-input"
+                style="font-family:'DM Mono',monospace;cursor:pointer;"
+                onchange="onInstallerDateChange()">
+            </div>
+            <div class="sheets-row">
+              <span class="sheets-name" style="color:var(--muted);">Joseph</span>
+              <input class="sheets-input" id="dayhrs_joseph" type="number" min="0" step="0.5" placeholder="e.g. 8" style="font-family:'DM Mono',monospace;" oninput="onInstallerDayHrsChange('joseph')">
+              <span class="alloc-unit" style="font-size:11px;color:var(--muted);flex-shrink:0;">h</span>
+            </div>
+            <div class="sheets-row" style="margin-top:6px;">
+              <span class="sheets-name" style="color:var(--muted);">Anthony</span>
+              <input class="sheets-input" id="dayhrs_anthony" type="number" min="0" step="0.5" placeholder="e.g. 8" style="font-family:'DM Mono',monospace;" oninput="onInstallerDayHrsChange('anthony')">
+              <span class="alloc-unit" style="font-size:11px;color:var(--muted);flex-shrink:0;">h</span>
+            </div>
+            <div class="sheets-row" style="margin-top:6px;">
+              <span class="sheets-name" style="color:var(--muted);">David</span>
+              <input class="sheets-input" id="dayhrs_david" type="number" min="0" step="0.5" placeholder="e.g. 8" style="font-family:'DM Mono',monospace;" oninput="onInstallerDayHrsChange('david')">
+              <span class="alloc-unit" style="font-size:11px;color:var(--muted);flex-shrink:0;">h</span>
+            </div>
+            <div id="installerDaySummary" style="margin-top:10px;font-size:11px;color:var(--muted);min-height:14px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOG JOB FORM -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Log a Job</div>
+        </div>
+        <div class="panel-body">
+          <div id="formAlert" class="alert">Please fill in job name, truck, revenue, and select at least one crew member.</div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Job / Client Name</label>
+              <input type="text" id="jobName" placeholder="e.g. Dupont Kitchen">
+            </div>
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" id="jobDate" onchange="onDateChange()">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Revenue ($)</label>
+              <input type="number" id="jobRev" placeholder="0.00" min="0" step="0.01">
+            </div>
+            <div class="form-group">
+              <label>Truck</label>
+              <select id="jobTruck">
+                <option value="">— Select Truck —</option>
+                <option value="Joseph">Joseph's Truck</option>
+                <option value="Anthony">Anthony's Truck</option>
+                <option value="David">David's Truck</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Job Type</label>
+            <select id="jobType">
+              <option value="Install">Install</option>
+              <option value="Measure">Measure</option>
+              <option value="Carry-In">Carry-In</option>
+              <option value="Repair">Repair</option>
+            </select>
+          </div>
+
+          <div class="section-label">Crew on this job</div>
+          <div class="crew-grid" id="crewGrid"></div>
+
+          <div class="section-label" style="margin-top:14px;">Crew Allocation</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Hours for everyone · Revenue % split freely among installers (always totals 100%).</div>
+          <div class="alloc-grid" id="allocGrid"></div>
+
+          <button class="btn-primary" onclick="addJob()">＋ Log Job</button>
+        </div>
+      </div>
+
+      <!-- JOBS LOG -->
+      <div class="panel" style="margin-top:16px;">
+        <div class="panel-header">
+          <div class="panel-title">Job Log</div>
+          <div style="font-size:12px;color:var(--muted);" id="jobCount">0 jobs</div>
+        </div>
+        <div class="panel-body" style="padding:14px;">
+          <div class="jobs-list" id="jobsList">
+            <div class="empty-state"><div class="empty-icon">📋</div>No jobs logged yet.<br>Add your first job above.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: ANALYTICS -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- TRUCKS -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Installer Revenue</div>
+        </div>
+        <div class="panel-body">
+          <div class="truck-list" id="truckList"></div>
+        </div>
+      </div>
+
+      <!-- INSTALLERS & MEASURERS -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Installers & Measurers</div>
+          <div style="font-size:11px;color:var(--muted);">Revenue ownership</div>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <table class="emp-table" id="empTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Jobs</th>
+                <th>Hours</th>
+                <th>Revenue Owned</th>
+                <th>$/hr</th>
+              </tr>
+            </thead>
+            <tbody id="empBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- HELPERS -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Helpers</div>
+          <div style="font-size:11px;color:var(--muted);">Labour contribution</div>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <table class="emp-table" id="helperTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Jobs</th>
+                <th>Hours</th>
+                <th>Rev Supported</th>
+                <th>Hrs/Job</th>
+              </tr>
+            </thead>
+            <tbody id="helperBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- WEEKLY REPORT -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Weekly Report</div>
+          <button onclick="copyReport()" style="background:rgba(232,160,32,0.1);border:1px solid rgba(232,160,32,0.3);color:var(--accent);padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.5px;">Copy Report</button>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <div id="weeklyReport"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONSTANTS ──────────────────────────────────────────────────────────────
+
+const CREW = [
+  { id:'joseph',  name:'Joseph',  role:'truck',    truckId:'Joseph'  },
+  { id:'anthony', name:'Anthony', role:'truck',    truckId:'Anthony' },
+  { id:'david',   name:'David',   role:'truck',    truckId:'David'   },
+  { id:'cedrik',  name:'Cédrik',  role:'measurer'  },
+  { id:'dad',     name:'Dad',     role:'measurer'  },
+  { id:'sam',     name:'Sam',     role:'helper',   sheetId:'1uxS_FY7aUsdbCgZVmG0LhS4MQCCk-kKeVzf1j33Cq-k' },
+  { id:'kim',     name:'Kim',     role:'helper',   sheetId:'1CMojVvA8qw4BzO6cyCL2N1yx52LBnuS7rqZSuXnMwgU' },
+  { id:'luis',    name:'Luis',    role:'helper',   sheetId:'1USdDalNu9DI6M1nNIankbgZ5ybeqp06rO1GcYkEWbYg' },
+  { id:'angela',  name:'Angela',  role:'helper'    },
+];
+
+const TRUCKS = [
+  { id:'Joseph',  label:"Joseph's Truck",  color:'#e8a020', bg:'rgba(232,160,32,.15)' },
+  { id:'Anthony', label:"Anthony's Truck", color:'#58a6ff', bg:'rgba(88,166,255,.15)' },
+  { id:'David',   label:"David's Truck",   color:'#bc8cff', bg:'rgba(188,140,255,.15)' },
+];
+
+// Month tab names exactly as in the sheets
+const MONTH_NAMES = [
+  'January 2026','February 2026','March 2026','April 2026',
+  'May 2026','June 2026','July 2026','August 2026',
+  'September 2026','October 2026','November 2026','December 2026'
+];
+
+// ─── STATE / STORAGE ────────────────────────────────────────────────────────
+
+const KEY = 'spartan_tracker_v3';
+let state = { weeks:['Week 1'], currentWeek:'Week 1', jobs:{} };
+
+function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+function load() {
+  try { const d = localStorage.getItem(KEY); if(d) state = JSON.parse(d); } catch(e){}
+}
+
+function getApiKey()  { return localStorage.getItem('spartan_gsheets_key') || ''; }
+function saveApiKey() {
+  const v = document.getElementById('apiKeyInput').value.trim();
+  if(!v) return;
+  localStorage.setItem('spartan_gsheets_key', v);
+  document.getElementById('apiKeyInput').value = '';
+  showSyncInfo('✓ API key saved. Hours will auto-fill when you select a date and helper.', 'green');
+}
+
+function currentJobs()       { return state.jobs[state.currentWeek] || []; }
+function setCurrentJobs(arr) { state.jobs[state.currentWeek] = arr; }
+
+// ─── HOURS CACHE ────────────────────────────────────────────────────────────
+// Cache fetched hours per (sheetId + date) so we don't re-fetch every toggle
+const hoursCache = {}; // key: `${sheetId}_${date}` → hours (number) or null
+
+// Installer day totals — keyed by `${installerId}_${date}` → number
+// Populated from the manual input fields in the Hours Sync panel
+const installerDayCache = {};
+
+function getInstallerDayHrs(installerId, dateStr) {
+  return installerDayCache[`${installerId}_${dateStr}`] || null;
+}
+
+// Returns the date currently selected in the installer date picker
+function getInstallerDate() {
+  return document.getElementById('installerDate').value || '';
+}
+
+// When the installer date picker changes — reload fields with any cached values for that date
+function onInstallerDateChange() {
+  const dateStr = getInstallerDate();
+  ['joseph','anthony','david'].forEach(id => {
+    const cached = installerDayCache[`${id}_${dateStr}`];
+    const el = document.getElementById(`dayhrs_${id}`);
+    if(el) el.value = cached != null ? cached : '';
+  });
+  updateInstallerDaySummary(dateStr);
+  // If job form date matches, rebuild alloc grid
+  const jobDate = document.getElementById('jobDate').value;
+  if(jobDate === dateStr) buildAllocGrid();
+}
+
+function onInstallerDayHrsChange(installerId) {
+  const dateStr = getInstallerDate();
+  if(!dateStr) {
+    // Nudge user to pick a date first
+    const el = document.getElementById('installerDate');
+    if(el) { el.style.borderColor = 'var(--accent)'; setTimeout(()=>el.style.borderColor='',1500); }
+    return;
+  }
+  const val = parseFloat(document.getElementById(`dayhrs_${installerId}`).value) || 0;
+  installerDayCache[`${installerId}_${dateStr}`] = val > 0 ? val : null;
+  updateInstallerDaySummary(dateStr);
+  // Rebalance all jobs on this date for this installer
+  rebalanceHoursForDate(dateStr);
+  save();
+  renderAll();
+  // Rebuild alloc grid if job form date matches
+  const jobDate = document.getElementById('jobDate').value;
+  if(jobDate === dateStr && selectedCrew.includes(installerId)) buildAllocGrid();
+}
+
+// Show a compact summary of how many jobs each installer has on the chosen date
+function updateInstallerDaySummary(dateStr) {
+  const el = document.getElementById('installerDaySummary');
+  if(!el || !dateStr) return;
+  const lines = ['joseph','anthony','david'].map(id => {
+    const hrs = installerDayCache[`${id}_${dateStr}`];
+    if(!hrs) return null;
+    const jobCount = existingJobCountForPersonOnDate(id, dateStr);
+    const share = jobCount > 0 ? (hrs / jobCount).toFixed(1) : hrs.toFixed(1);
+    const name = CREW.find(c=>c.id===id)?.name || id;
+    return `${name}: ${hrs}h ÷ ${jobCount} job${jobCount!==1?'s':''} = ${share}h each`;
+  }).filter(Boolean);
+  el.textContent = lines.length > 0 ? lines.join('  ·  ') : '';
+}
+
+// ─── GOOGLE SHEETS FETCH ───────────────────────────────────────────────────
+
+/**
+ * Given a date string "YYYY-MM-DD", returns the tab name e.g. "March 2026"
+ */
+function tabNameForDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return MONTH_NAMES[d.getMonth()]; // works for 2026 sheets
+}
+
+/**
+ * Fetch hours for a person from their Google Sheet for a given date.
+ * Sheet layout: col A = date string "YYYY-MM-DD", col E = Total Hours (numeric)
+ * Returns: number of hours, or null if not found / error
+ */
+async function fetchHoursFromSheet(crewMember, dateStr) {
+  const apiKey = getApiKey();
+  if(!apiKey) return null;
+
+  const cacheKey = `${crewMember.sheetId}_${dateStr}`;
+  if(hoursCache[cacheKey] !== undefined) return hoursCache[cacheKey];
+
+  const tab     = tabNameForDate(dateStr);
+  const range   = encodeURIComponent(`'${tab}'!A:E`);
+  const url     = `https://sheets.googleapis.com/v4/spreadsheets/${crewMember.sheetId}/values/${range}?key=${apiKey}`;
+
+  setSheetStatus(crewMember.id, 'loading');
+  try {
+    const res = await fetch(url);
+    if(!res.ok) {
+      const err = await res.json().catch(()=>({}));
+      console.warn('Sheets API error:', err);
+      setSheetStatus(crewMember.id, 'err');
+      hoursCache[cacheKey] = null;
+      return null;
+    }
+    const data = await res.json();
+    const rows = data.values || [];
+
+    // Find the row where col A matches dateStr
+    const row = rows.find(r => r[0] === dateStr);
+    if(!row) {
+      // Date not found — probably a non-work day or future date
+      hoursCache[cacheKey] = null;
+      setSheetStatus(crewMember.id, 'ok');
+      return null;
+    }
+
+    // col E is index 4
+    const hrs = parseFloat(row[4]);
+    const result = isNaN(hrs) ? null : hrs;
+    hoursCache[cacheKey] = result;
+    setSheetStatus(crewMember.id, 'ok');
+    return result;
+
+  } catch(e) {
+    console.warn('Fetch error:', e);
+    setSheetStatus(crewMember.id, 'err');
+    hoursCache[cacheKey] = null;
+    return null;
+  }
+}
+
+function setSheetStatus(crewId, status) {
+  // Map crew id to status element id
+  const map = { sam:'sts_sam', luis:'sts_luis', kim:'sts_kim' };
+  const el = document.getElementById(map[crewId]);
+  if(!el) return;
+  el.className = `sheets-status ${status}`;
+  el.textContent = status === 'loading' ? '↻' : status === 'ok' ? '✓' : '✗';
+}
+
+function showSyncInfo(msg, color) {
+  const el = document.getElementById('syncInfo');
+  el.textContent = msg;
+  el.style.borderColor = color === 'green' ? 'rgba(63,185,80,0.3)' : 'rgba(88,166,255,0.3)';
+  el.style.background  = color === 'green' ? 'rgba(63,185,80,0.06)' : 'rgba(88,166,255,0.06)';
+  el.style.color       = color === 'green' ? 'var(--green)' : 'var(--truck-a)';
+  el.classList.add('visible');
+  setTimeout(()=> el.classList.remove('visible'), 4000);
+}
+
+// ─── INIT ───────────────────────────────────────────────────────────────────
+
+load();
+buildWeekTabs();
+buildCrewGrid();
+renderAll();
+const _today = new Date();
+document.getElementById('jobDate').valueAsDate = _today;
+document.getElementById('installerDate').valueAsDate = _today;
+
+// Restore API key placeholder hint
+if(getApiKey()) {
+  document.getElementById('apiKeyInput').placeholder = '••••••••••••••••••••• (saved)';
+}
+
+// ─── WEEKS ──────────────────────────────────────────────────────────────────
+
+let dragSrcWeek = null;
+
+function buildWeekTabs() {
+  const el = document.getElementById('weekTabs');
+  el.innerHTML = '';
+  state.weeks.forEach(w => {
+    const btn = document.createElement('button');
+    btn.className = 'week-tab' + (w === state.currentWeek ? ' active' : '');
+    btn.textContent = w;
+    btn.title = 'Drag to reorder · Double-click to rename';
+    btn.draggable = true;
+    btn.dataset.week = w;
+
+    // ── Click vs double-click ──
+    let clickTimer = null;
+    btn.addEventListener('click', () => {
+      if(clickTimer) {
+        clearTimeout(clickTimer);
+        clickTimer = null;
+        renameWeek(w, btn);
+      } else {
+        clickTimer = setTimeout(() => {
+          clickTimer = null;
+          state.currentWeek = w;
+          buildWeekTabs();
+          renderAll();
+        }, 220);
+      }
+    });
+
+    // ── Drag to reorder ──
+    btn.addEventListener('dragstart', (e) => {
+      dragSrcWeek = w;
+      btn.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    btn.addEventListener('dragend', () => {
+      btn.classList.remove('dragging');
+      document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('drag-over'));
+    });
+    btn.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      if(w !== dragSrcWeek) btn.classList.add('drag-over');
+    });
+    btn.addEventListener('dragleave', () => {
+      btn.classList.remove('drag-over');
+    });
+    btn.addEventListener('drop', (e) => {
+      e.preventDefault();
+      btn.classList.remove('drag-over');
+      if(!dragSrcWeek || dragSrcWeek === w) return;
+      // Reorder: move dragSrcWeek to position of w
+      const fromIdx = state.weeks.indexOf(dragSrcWeek);
+      const toIdx   = state.weeks.indexOf(w);
+      if(fromIdx === -1 || toIdx === -1) return;
+      state.weeks.splice(fromIdx, 1);
+      state.weeks.splice(toIdx, 0, dragSrcWeek);
+      dragSrcWeek = null;
+      save();
+      buildWeekTabs();
+    });
+
+    el.appendChild(btn);
+  });
+}
+
+function renameWeek(oldName, btn) {
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = oldName;
+  input.style.cssText = `
+    background:var(--card); border:1px solid var(--accent); color:var(--text);
+    padding:4px 10px; border-radius:20px; font-family:'DM Sans',sans-serif;
+    font-size:12px; font-weight:600; width:${Math.max(120, oldName.length * 8)}px;
+    outline:none;
+  `;
+  btn.replaceWith(input);
+  input.focus();
+  input.select();
+
+  const commit = () => {
+    const newName = input.value.trim() || oldName;
+    if(newName !== oldName) {
+      // Rename in weeks array
+      const idx = state.weeks.indexOf(oldName);
+      if(idx !== -1) state.weeks[idx] = newName;
+      // Migrate jobs data to new key
+      if(state.jobs[oldName]) {
+        state.jobs[newName] = state.jobs[oldName];
+        delete state.jobs[oldName];
+      }
+      // Update currentWeek pointer
+      if(state.currentWeek === oldName) state.currentWeek = newName;
+      save();
+    }
+    buildWeekTabs();
+    renderAll();
+  };
+
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', e => {
+    if(e.key === 'Enter') { e.preventDefault(); input.blur(); }
+    if(e.key === 'Escape') { input.value = oldName; input.blur(); }
+  });
+}
+
+function addWeek() {
+  const n = state.weeks.length + 1;
+  const label = 'Week ' + n;
+  state.weeks.push(label);
+  state.currentWeek = label;
+  save(); buildWeekTabs(); renderAll();
+}
+
+// ─── DATE CHANGE ────────────────────────────────────────────────────────────
+
+function onDateChange() {
+  allocState = {}; // reset so hours re-fetch for new date
+  buildAllocGrid();
+}
+
+// ─── CREW GRID ──────────────────────────────────────────────────────────────
+
+let selectedCrew = [];
+
+function buildCrewGrid() {
+  const grid = document.getElementById('crewGrid');
+  grid.innerHTML = '';
+  CREW.forEach(c => {
+    const chip = document.createElement('div');
+    chip.className = 'crew-chip';
+    chip.dataset.id   = c.id;
+    chip.dataset.role = c.role;
+    chip.innerHTML = `<span class="dot"></span>${c.name}`;
+    chip.onclick = () => toggleCrew(c.id, chip);
+    grid.appendChild(chip);
+  });
+}
+
+function toggleCrew(id, chip) {
+  if(selectedCrew.includes(id)) {
+    selectedCrew = selectedCrew.filter(x => x !== id);
+    chip.classList.remove('selected');
+    delete allocState[id];
+  } else {
+    selectedCrew.push(id);
+    chip.classList.add('selected');
+  }
+  // Whenever installer composition changes, recalculate even split among installers
+  const c = CREW.find(x => x.id === id);
+  if(c && c.role === 'truck') {
+    const installerIds = selectedCrew.filter(sid => CREW.find(x => x.id === sid)?.role === 'truck');
+    const newPcts = defaultPctForCrew(selectedCrew); // returns 0 for helpers automatically
+    installerIds.forEach(tid => {
+      if(allocState[tid]) allocState[tid].pct = newPcts[tid];
+      else allocState[tid] = { hrs: null, pct: newPcts[tid] };
+    });
+  }
+  buildAllocGrid();
+}
+
+/**
+ * For a sheet-backed helper on a given date, calculate how many jobs they
+ * already appear in (across ALL weeks in state) for that date.
+ * Returns count of existing jobs — used to compute the split denominator
+ * which will be existingCount + 1 (the job being added now).
+ */
+function existingJobCountForPersonOnDate(personId, dateStr) {
+  let count = 0;
+  Object.values(state.jobs).forEach(weekJobs => {
+    weekJobs.forEach(j => {
+      if(j.date === dateStr && j.crew.includes(personId)) count++;
+    });
+  });
+  return count;
+}
+
+/**
+ * After adding a new job, retroactively re-split hours for sheet-backed helpers
+ * across all jobs on the same date (including the new one just added).
+ * dayTotal for each person comes from hoursCache.
+ */
+function rebalanceHoursForDate(dateStr) {
+  // Rebalance sheet-backed helpers (Sam, Luis, Kim)
+  const sheetCrew = CREW.filter(c => c.sheetId);
+  sheetCrew.forEach(c => {
+    const cacheKey = `${c.sheetId}_${dateStr}`;
+    const dayTotal = hoursCache[cacheKey];
+    if(dayTotal == null || dayTotal <= 0) return;
+    const matchingJobs = [];
+    Object.values(state.jobs).forEach(weekJobs => {
+      weekJobs.forEach(j => {
+        if(j.date === dateStr && j.crew.includes(c.id)) matchingJobs.push(j);
+      });
+    });
+    if(matchingJobs.length === 0) return;
+    const share = Math.round((dayTotal / matchingJobs.length) * 100) / 100;
+    matchingJobs.forEach(j => { j.hours[c.id] = share; });
+  });
+
+  // Rebalance installers (Joseph, Anthony, David) using manual day totals
+  const installerCrew = CREW.filter(c => c.role === 'truck');
+  installerCrew.forEach(c => {
+    const dayTotal = getInstallerDayHrs(c.id, dateStr);
+    if(dayTotal == null || dayTotal <= 0) return;
+    const matchingJobs = [];
+    Object.values(state.jobs).forEach(weekJobs => {
+      weekJobs.forEach(j => {
+        if(j.date === dateStr && j.crew.includes(c.id)) matchingJobs.push(j);
+      });
+    });
+    if(matchingJobs.length === 0) return;
+    const share = Math.round((dayTotal / matchingJobs.length) * 100) / 100;
+    matchingJobs.forEach(j => { j.hours[c.id] = share; });
+  });
+}
+
+// ─── ALLOCATION GRID ────────────────────────────────────────────────────────
+// Per-job state: revPct per crew member (0-100). Hours only stored for sheet-backed helpers.
+let allocState = {}; // { crewId: { hrs: number|null, pct: number } }
+
+function defaultPctForCrew(ids) {
+  // Split 100% evenly among truck drivers; helpers/measurers always get 0%
+  const truckIds = ids.filter(id => CREW.find(x => x.id === id)?.role === 'truck');
+  const n = truckIds.length;
+  const base = n > 0 ? Math.floor(100 / n) : 0;
+  const rem  = n > 0 ? 100 - base * n : 0;
+  const result = {};
+  ids.forEach(id => { result[id] = 0; });
+  truckIds.forEach((id, i) => { result[id] = base + (i === 0 ? rem : 0); });
+  return result;
+}
+
+async function buildAllocGrid() {
+  const grid    = document.getElementById('allocGrid');
+  const dateStr = document.getElementById('jobDate').value;
+  const revRaw  = parseFloat(document.getElementById('jobRev').value) || 0;
+  grid.innerHTML = '';
+
+  if(selectedCrew.length === 0) return;
+
+  // Init allocState with even % split, preserving any existing values
+  const defaultPcts = defaultPctForCrew(selectedCrew);
+  selectedCrew.forEach(id => {
+    if(!allocState[id]) {
+      allocState[id] = { hrs: null, pct: defaultPcts[id] };
+    }
+  });
+  // Remove any deselected crew
+  Object.keys(allocState).forEach(id => {
+    if(!selectedCrew.includes(id)) delete allocState[id];
+  });
+
+  // Build a card per crew member
+  for(const id of selectedCrew) {
+    const c   = CREW.find(x => x.id === id);
+    const st  = allocState[id];
+    const revShare = Math.round(revRaw * st.pct / 100 * 100) / 100;
+
+    const card = document.createElement('div');
+    card.className = 'alloc-card';
+    card.id = `ac_${id}`;
+
+    const hrsVal = st.hrs !== null ? st.hrs : '';
+    const hrsPlaceholder = c.sheetId ? '...' : (c.role === 'truck' ? 'enter day total →' : '0');
+
+    card.innerHTML = `
+      <div class="alloc-name">${c.name}</div>
+      <div class="alloc-field">
+        <div class="alloc-label">Hours${c.sheetId ? ' <span class="sync-pill" id="spill_${id}">sync</span>' : (c.role === 'truck' ? ' <span class="sync-pill" id="spill_${id}" style="background:rgba(232,160,32,0.12);color:var(--accent);">manual</span>' : '')}</div>
+        <div class="alloc-input-wrap">
+          <input class="alloc-input${c.sheetId ? ' synced-val' : ''}" type="number" id="hrs_${id}"
+            value="${hrsVal}" min="0" step="0.5" placeholder="${hrsPlaceholder}">
+          <span class="alloc-unit">h</span>
+        </div>
+      </div>
+      <div class="alloc-field">
+        <div class="alloc-label">Rev %</div>
+        <div class="alloc-input-wrap">
+          ${c.role === 'truck'
+            ? `<input class="alloc-input pct-input" type="number" id="pct_${id}" value="${st.pct}" min="0" max="100" step="1"><span class="alloc-unit">%</span>`
+            : `<span style="font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);padding:2px 0;letter-spacing:1px;">—</span><input type="hidden" id="pct_${id}" value="0">`
+          }
+        </div>
+      </div>
+      <div class="alloc-field">
+        <div class="alloc-label">Rev $</div>
+        <div class="alloc-rev-display" id="rev_${id}" style="${c.role !== 'truck' ? 'color:var(--muted);' : ''}">${c.role === 'truck' && revShare > 0 ? fmt(revShare) : '—'}</div>
+      </div>`;
+
+    grid.appendChild(card);
+
+    // Wire up % input → update rev display + allocState
+    document.getElementById(`pct_${id}`).addEventListener('input', function() {
+      const pct = Math.min(100, Math.max(0, parseFloat(this.value) || 0));
+      allocState[id].pct = pct;
+      const rv = parseFloat(document.getElementById('jobRev').value) || 0;
+      const share = Math.round(rv * pct / 100 * 100) / 100;
+      const revEl = document.getElementById(`rev_${id}`);
+      if(revEl) revEl.textContent = share > 0 ? fmt(share) : '—';
+      updatePctTotal();
+    });
+
+    // Wire up hrs input → update allocState
+    document.getElementById(`hrs_${id}`).addEventListener('input', function() {
+      allocState[id].hrs = parseFloat(this.value) || 0;
+    });
+
+    // Auto-fill hours from sheet (helpers) or installer day cache (trucks)
+    if(c.sheetId && dateStr) {
+      // Sheet-backed helper: async fetch
+      (async () => {
+        const dayTotal = await fetchHoursFromSheet(c, dateStr);
+        if(dayTotal !== null && dayTotal > 0) {
+          const existingCount = existingJobCountForPersonOnDate(id, dateStr);
+          const splitDenom    = existingCount + 1;
+          const share         = Math.round(dayTotal / splitDenom * 100) / 100;
+          allocState[id].hrs  = share;
+          const inp = document.getElementById(`hrs_${id}`);
+          if(inp) inp.value = share;
+          const pill = document.getElementById(`spill_${id}`);
+          if(pill) pill.textContent = splitDenom > 1 ? `÷${splitDenom} · ${dayTotal}h` : `${dayTotal}h`;
+          const cardEl = document.getElementById(`ac_${id}`);
+          if(cardEl) cardEl.classList.add('synced');
+          const ts = document.getElementById('syncLastFetched');
+          if(ts) ts.textContent = 'Last synced ' + new Date().toLocaleTimeString('en-CA', {hour:'2-digit',minute:'2-digit'});
+        }
+      })();
+    } else if(c.role === 'truck' && dateStr) {
+      // Installer: use manual day total from the Hours Sync panel
+      const dayTotal = getInstallerDayHrs(id, dateStr);
+      if(dayTotal !== null && dayTotal > 0) {
+        const existingCount = existingJobCountForPersonOnDate(id, dateStr);
+        const splitDenom    = existingCount + 1;
+        const share         = Math.round(dayTotal / splitDenom * 100) / 100;
+        allocState[id].hrs  = share;
+        const inp = document.getElementById(`hrs_${id}`);
+        if(inp) inp.value = share;
+        // Show split pill
+        const labelEl = card.querySelector('.alloc-label');
+        if(labelEl && !labelEl.querySelector('.sync-pill')) {
+          const pill = document.createElement('span');
+          pill.className = 'sync-pill';
+          pill.textContent = splitDenom > 1 ? `÷${splitDenom} · ${dayTotal}h` : `${dayTotal}h`;
+          labelEl.appendChild(pill);
+        }
+        const cardEl = document.getElementById(`ac_${id}`);
+        if(cardEl) cardEl.classList.add('synced');
+      }
+    }
+  }
+
+  // Total row
+  const totalRow = document.createElement('div');
+  totalRow.className = 'alloc-total-row';
+  totalRow.id = 'allocTotalRow';
+  totalRow.innerHTML = `<span style="color:var(--muted);font-size:11px;">Installer rev split total</span><span class="pct-sum" id="pctSum">—</span>`;
+  grid.appendChild(totalRow);
+  updatePctTotal();
+}
+
+function updatePctTotal() {
+  // Only validate % across installers — helpers are always 0 and excluded
+  const truckIds = selectedCrew.filter(id => CREW.find(c => c.id === id)?.role === 'truck');
+  const sum = truckIds.reduce((s, id) => {
+    const el = document.getElementById(`pct_${id}`);
+    return s + (parseFloat(el?.value) || 0);
+  }, 0);
+  const el = document.getElementById('pctSum');
+  if(!el) return;
+  if(truckIds.length === 0) {
+    el.textContent = '—';
+    el.className = 'pct-sum';
+    return;
+  }
+  el.textContent = sum + '%';
+  el.className = 'pct-sum ' + (Math.abs(sum - 100) < 1 ? 'ok' : 'bad');
+}
+
+// Recalculate rev displays when revenue field changes
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('jobRev').addEventListener('input', () => {
+    const rv = parseFloat(document.getElementById('jobRev').value) || 0;
+    selectedCrew.forEach(id => {
+      const pctEl = document.getElementById(`pct_${id}`);
+      const revEl = document.getElementById(`rev_${id}`);
+      if(!pctEl || !revEl) return;
+      const pct = parseFloat(pctEl.value) || 0;
+      const share = Math.round(rv * pct / 100 * 100) / 100;
+      revEl.textContent = share > 0 ? fmt(share) : '—';
+    });
+  });
+});
+
+// ─── ADD JOB ────────────────────────────────────────────────────────────────
+
+function addJob() {
+  const name  = document.getElementById('jobName').value.trim();
+  const date  = document.getElementById('jobDate').value;
+  const rev   = parseFloat(document.getElementById('jobRev').value) || 0;
+  const truck = document.getElementById('jobTruck').value;
+  const type  = document.getElementById('jobType').value;
+  const alrt  = document.getElementById('formAlert');
+
+  if(!name || !truck || rev <= 0 || selectedCrew.length === 0) {
+    alrt.style.display = 'block';
+    setTimeout(() => alrt.style.display = 'none', 3000);
+    return;
+  }
+
+  // Collect hours and revPct per crew member
+  const hours  = {};
+  const revPct = {};
+  selectedCrew.forEach(id => {
+    const hrsEl = document.getElementById('hrs_' + id);
+    const pctEl = document.getElementById('pct_' + id);
+    hours[id]  = parseFloat(hrsEl?.value)  || 0;
+    revPct[id] = parseFloat(pctEl?.value)  || 0;
+  });
+
+  const job = { id:Date.now(), name, date, rev, truck, type, crew:[...selectedCrew], hours, revPct };
+  const jobs = currentJobs();
+  jobs.unshift(job);
+  setCurrentJobs(jobs);
+
+  // Rebalance sheet-backed helper hours evenly across all jobs on this date
+  rebalanceHoursForDate(date);
+
+  save();
+
+  // reset form
+  document.getElementById('jobName').value  = '';
+  document.getElementById('jobRev').value   = '';
+  document.getElementById('jobTruck').value = '';
+  selectedCrew = [];
+  allocState   = {};
+  document.querySelectorAll('.crew-chip').forEach(c => c.classList.remove('selected'));
+  document.getElementById('allocGrid').innerHTML = '';
+
+  renderAll();
+}
+
+function deleteJob(id) {
+  const job = currentJobs().find(j => j.id === id);
+  const date = job?.date;
+  setCurrentJobs(currentJobs().filter(j => j.id !== id));
+  if(date) rebalanceHoursForDate(date);
+  save(); renderAll();
+}
+
+// ─── RENDER ─────────────────────────────────────────────────────────────────
+
+function fmt(n) {
+  return '$' + n.toLocaleString('en-CA', {minimumFractionDigits:0, maximumFractionDigits:0});
+}
+
+function renderAll() {
+  const jobs = currentJobs();
+  renderStats(jobs);
+  renderTrucks(jobs);
+  renderEmployees(jobs);
+  renderJobLog(jobs);
+  renderWeeklyReport();
+}
+
+// ─── INSTALLER REVENUE CALC (shared helper) ─────────────────────────────────
+function calcInstallerData(jobs) {
+  const installers = CREW.filter(c => c.role === 'truck');
+  return installers.map(c => {
+    const myJobs = jobs.filter(j => j.crew.includes(c.id));
+    const rev = myJobs.reduce((s,j) => {
+      if(j.revPct && j.revPct[c.id] !== undefined) return s + j.rev * j.revPct[c.id] / 100;
+      const installerCrew = j.crew.filter(id => CREW.find(x=>x.id===id)?.role==='truck');
+      return s + (installerCrew.length > 0 ? j.rev / installerCrew.length : j.rev);
+    }, 0);
+    const hrs = myJobs.reduce((s,j) => s + (j.hours[c.id]||0), 0);
+    const rph = hrs > 0 ? rev / hrs : 0;
+    const truck = TRUCKS.find(t => t.id === c.truckId);
+    return { ...c, rev, hrs, rph, jobCount:myJobs.length, color: truck?.color||'#e8a020' };
+  });
+}
+
+// ─── WEEKLY REPORT ──────────────────────────────────────────────────────────
+function renderWeeklyReport() {
+  const el = document.getElementById('weeklyReport');
+  if(!el) return;
+
+  // Build report for ALL weeks, sorted in state.weeks order
+  const blocks = state.weeks.map(week => {
+    const jobs = state.jobs[week] || [];
+    const installers = calcInstallerData(jobs);
+    const weekTotal = installers.reduce((s,i) => s + i.rev, 0);
+    const weekHrs   = installers.reduce((s,i) => s + i.hrs, 0);
+    const weekRph   = weekHrs > 0 ? weekTotal / weekHrs : 0;
+    return { week, jobs, installers, weekTotal, weekHrs, weekRph };
+  });
+
+  if(blocks.every(b => b.jobs.length === 0)) {
+    el.innerHTML = '<div class="report-empty">No jobs logged yet. Start adding jobs to see your weekly breakdown.</div>';
+    return;
+  }
+
+  const maxRev = Math.max(...blocks.map(b => Math.max(...b.installers.map(i => i.rev), 0)), 1);
+
+  el.innerHTML = blocks.map(b => {
+    if(b.jobs.length === 0) return '';
+
+    const rows = b.installers
+      .filter(i => i.jobCount > 0)
+      .sort((a,z) => z.rev - a.rev)
+      .map(i => {
+        const barPct = maxRev > 0 ? (i.rev / maxRev * 100) : 0;
+        const rphClass = i.rph >= 200 ? 'good' : i.rph >= 120 ? 'ok' : 'low';
+        return `<div class="report-installer-row">
+          <span class="ri-name" style="color:${i.color}">${i.name}</span>
+          <div class="report-bar-wrap"><div class="report-bar-fill" style="width:${barPct}%;background:${i.color}"></div></div>
+          <span class="report-val" style="color:${i.color}">${fmt(i.rev)}</span>
+          <span class="report-val" style="color:var(--muted)">${i.hrs.toFixed(1)}h</span>
+          <span class="report-rph ${rphClass}">${i.rph > 0 ? fmt(i.rph) : '—'}</span>
+        </div>`;
+      }).join('');
+
+    const rphClass = b.weekRph >= 200 ? 'good' : b.weekRph >= 120 ? 'ok' : 'low';
+
+    return `<div class="report-week-block${b.week === state.currentWeek ? ' active' : ''}">
+      <div class="report-week-title">
+        <span>${b.week}</span>
+        <span class="report-total">${fmt(b.weekTotal)} · <span class="report-rph ${rphClass}" style="display:inline">${b.weekRph > 0 ? fmt(b.weekRph)+'/hr' : '—'}</span></span>
+      </div>
+      <div class="report-header-row">
+        <span>Installer</span><span></span>
+        <span style="text-align:right">Revenue</span>
+        <span style="text-align:right">Hours</span>
+        <span style="text-align:right">$/hr</span>
+      </div>
+      ${rows}
+    </div>`;
+  }).join('');
+}
+
+// ─── COPY REPORT ────────────────────────────────────────────────────────────
+function copyReport() {
+  const lines = [];
+  state.weeks.forEach(week => {
+    const jobs = state.jobs[week] || [];
+    if(jobs.length === 0) return;
+    const installers = calcInstallerData(jobs).filter(i => i.jobCount > 0).sort((a,b) => b.rev - a.rev);
+    const weekTotal = installers.reduce((s,i) => s + i.rev, 0);
+    const weekHrs   = installers.reduce((s,i) => s + i.hrs, 0);
+    const weekRph   = weekHrs > 0 ? weekTotal / weekHrs : 0;
+
+    lines.push('═'.repeat(36));
+    lines.push(week.toUpperCase());
+    lines.push('─'.repeat(36));
+    installers.forEach(i => {
+      const rph = i.rph > 0 ? fmt(i.rph)+'/hr' : '—';
+      lines.push(`${i.name.padEnd(10)} ${fmt(i.rev).padStart(10)}  ${(i.hrs.toFixed(1)+'h').padStart(6)}  ${rph.padStart(8)}`);
+    });
+    lines.push('─'.repeat(36));
+    const totalRph = weekRph > 0 ? fmt(weekRph)+'/hr' : '—';
+    lines.push(`${'TOTAL'.padEnd(10)} ${fmt(weekTotal).padStart(10)}  ${(weekHrs.toFixed(1)+'h').padStart(6)}  ${totalRph.padStart(8)}`);
+    lines.push('');
+  });
+
+  if(lines.length === 0) return;
+
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    const btn = document.querySelector('[onclick="copyReport()"]');
+    if(btn) { btn.textContent = '✓ Copied!'; setTimeout(()=>btn.textContent='Copy Report',2000); }
+  }).catch(() => {
+    // fallback for non-https
+    const ta = document.createElement('textarea');
+    ta.value = lines.join('\n');
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    const btn = document.querySelector('[onclick="copyReport()"]');
+    if(btn) { btn.textContent = '✓ Copied!'; setTimeout(()=>btn.textContent='Copy Report',2000); }
+  });
+}
+
+function renderStats(jobs) {
+  const totalRev = jobs.reduce((s,j) => s + j.rev, 0);
+  const totalHrs = jobs.reduce((s,j) => s + Object.values(j.hours).reduce((a,b)=>a+b,0), 0);
+  const revPerHr = totalHrs > 0 ? totalRev/totalHrs : 0;
+
+  const empRevMap = {};
+  jobs.forEach(j => {
+    j.crew.forEach(id => {
+      const share = (j.revPct && j.revPct[id] !== undefined)
+        ? j.rev * j.revPct[id] / 100
+        : (j.crew.length > 0 ? j.rev / j.crew.length : 0);
+      empRevMap[id] = (empRevMap[id]||0) + share;
+    });
+  });
+  let topId = null, topVal = 0;
+  Object.entries(empRevMap).forEach(([id,v]) => { if(v>topVal){topVal=v;topId=id;} });
+  const topName = topId ? CREW.find(c=>c.id===topId)?.name : '—';
+
+  document.getElementById('totalRev').textContent    = fmt(totalRev);
+  document.getElementById('totalJobs').textContent   = jobs.length + ' jobs logged';
+  document.getElementById('totalHours').textContent  = totalHrs.toFixed(1) + 'h';
+  document.getElementById('avgHours').textContent    = jobs.length > 0 ? (totalHrs/jobs.length).toFixed(1)+'h per job avg' : '— per job avg';
+  document.getElementById('revPerHr').textContent    = fmt(revPerHr);
+  document.getElementById('topEarner').textContent   = topName || '—';
+  document.getElementById('topEarnerRev').textContent = topId ? fmt(topVal) + ' attributed' : 'this week';
+}
+
+function renderTrucks(jobs) {
+  const el = document.getElementById('truckList');
+  // Total attributed revenue across all installers
+  const totalRev = jobs.reduce((s,j)=>s+j.rev,0);
+
+  // Each installer card shows their personal attributed revenue across ALL jobs
+  // (not filtered by which truck was used — truck is just the vehicle)
+  const installerData = TRUCKS.map(t => {
+    const installer = CREW.find(c => c.truckId === t.id);
+    if(!installer) return { ...t, rev:0, hrs:0, jobCount:0 };
+
+    // All jobs where this installer was on crew
+    const myJobs = jobs.filter(j => j.crew.includes(installer.id));
+    const rev = myJobs.reduce((s,j) => {
+      if(j.revPct && j.revPct[installer.id] !== undefined)
+        return s + j.rev * j.revPct[installer.id] / 100;
+      // fallback: solo installer gets full job rev
+      const installerCrew = j.crew.filter(id => CREW.find(c=>c.id===id)?.role==='truck');
+      return s + (installerCrew.length > 0 ? j.rev / installerCrew.length : j.rev);
+    }, 0);
+    const hrs      = myJobs.reduce((s,j) => s + (j.hours[installer.id]||0), 0);
+    const jobCount = myJobs.length;
+    return { ...t, rev, hrs, jobCount };
+  }).sort((a,b) => b.rev - a.rev);
+
+  el.innerHTML = installerData.map(t => {
+    const pct = totalRev > 0 ? (t.rev/totalRev*100) : 0;
+    const rph = t.hrs > 0 ? (t.rev/t.hrs) : 0;
+    return `
+      <div class="truck-row">
+        <div class="truck-badge" style="background:${t.bg};color:${t.color}">${t.id[0]}</div>
+        <div class="truck-info">
+          <div class="truck-name">${t.id}</div>
+          <div class="truck-meta">${t.jobCount} jobs · ${t.hrs.toFixed(1)}h · ${rph > 0 ? fmt(rph)+'/hr' : '—'}</div>
+        </div>
+        <div class="truck-rev">
+          <div class="rev-val" style="color:${t.color}">${fmt(t.rev)}</div>
+          <div class="rev-sub">${pct.toFixed(1)}% of total</div>
+        </div>
+        <div class="truck-bar-wrap">
+          <div class="truck-bar" style="width:${pct}%;background:${t.color}"></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderEmployees(jobs) {
+  // ── Installers + Measurers table (revenue ownership) ──────────────────────
+  const tbody   = document.getElementById('empBody');
+  const staffCrew = CREW.filter(c => c.role === 'truck' || c.role === 'measurer');
+  let maxRph = 0;
+
+  const staffData = staffCrew.map(c => {
+    const cJobs = jobs.filter(j => j.crew.includes(c.id));
+    const rev   = cJobs.reduce((s,j) => {
+      if(j.revPct && j.revPct[c.id] !== undefined) return s + (j.rev * j.revPct[c.id] / 100);
+      return s + (c.role === 'truck' ? j.rev : 0); // measurers get 0 by default
+    }, 0);
+    const hrs = cJobs.reduce((s,j) => s + (j.hours[c.id]||0), 0);
+    const rph = hrs > 0 ? rev / hrs : 0;
+    if(rph > maxRph) maxRph = rph;
+    return { ...c, jobCount:cJobs.length, rev, hrs, rph };
+  }).sort((a,b) => b.rev - a.rev);
+
+  tbody.innerHTML = staffData.length === 0
+    ? `<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;font-size:12px;">No jobs logged yet</td></tr>`
+    : staffData.map(e => {
+        const barPct = maxRph > 0 ? (e.rph / maxRph * 100) : 0;
+        return `<tr>
+          <td><div class="emp-name">${e.name} <span class="role-badge ${e.role}">${e.role}</span></div></td>
+          <td style="color:var(--text)">${e.jobCount}</td>
+          <td style="font-family:'DM Mono',monospace">${e.hrs.toFixed(1)}h</td>
+          <td style="font-family:'DM Mono',monospace;color:var(--accent)">${e.rev > 0 ? fmt(e.rev) : '—'}</td>
+          <td>
+            <div class="rev-hr-bar">
+              <span style="font-family:'DM Mono',monospace;font-size:12px;min-width:44px">${e.rph > 0 ? fmt(e.rph) : '—'}</span>
+              <div class="mini-bar"><div class="mini-bar-fill" style="width:${barPct}%"></div></div>
+            </div>
+          </td>
+        </tr>`;
+      }).join('');
+
+  // ── Helpers table (labour contribution — supported revenue) ────────────────
+  const hbody      = document.getElementById('helperBody');
+  const helperCrew = CREW.filter(c => c.role === 'helper');
+  let maxSupportedRev = 0;
+
+  const helperData = helperCrew.map(c => {
+    const cJobs        = jobs.filter(j => j.crew.includes(c.id));
+    const supportedRev = cJobs.reduce((s,j) => s + j.rev, 0); // total rev of jobs they were on
+    const hrs          = cJobs.reduce((s,j) => s + (j.hours[c.id]||0), 0);
+    const hrsPerJob    = cJobs.length > 0 ? hrs / cJobs.length : 0;
+    if(supportedRev > maxSupportedRev) maxSupportedRev = supportedRev;
+    return { ...c, jobCount:cJobs.length, supportedRev, hrs, hrsPerJob };
+  }).sort((a,b) => b.supportedRev - a.supportedRev);
+
+  hbody.innerHTML = helperData.length === 0
+    ? `<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;font-size:12px;">No helpers logged yet</td></tr>`
+    : helperData.map(h => {
+        const barPct = maxSupportedRev > 0 ? (h.supportedRev / maxSupportedRev * 100) : 0;
+        return `<tr>
+          <td><div class="emp-name">${h.name} <span class="role-badge ${h.role}">${h.role}</span></div></td>
+          <td style="color:var(--text)">${h.jobCount}</td>
+          <td style="font-family:'DM Mono',monospace">${h.hrs.toFixed(1)}h</td>
+          <td>
+            <div class="rev-hr-bar">
+              <span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--truck-d);min-width:54px">${h.supportedRev > 0 ? fmt(h.supportedRev) : '—'}</span>
+              <div class="mini-bar"><div class="mini-bar-fill" style="width:${barPct}%;background:var(--truck-d)"></div></div>
+            </div>
+          </td>
+          <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">${h.hrsPerJob > 0 ? h.hrsPerJob.toFixed(1)+'h' : '—'}</td>
+        </tr>`;
+      }).join('');
+}
+
+function renderJobLog(jobs) {
+  const el    = document.getElementById('jobsList');
+  const count = document.getElementById('jobCount');
+  count.textContent = jobs.length + ' jobs';
+  if(jobs.length === 0) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>No jobs logged yet.<br>Add your first job above.</div>';
+    return;
+  }
+  const truck = id => TRUCKS.find(t=>t.id===id);
+  el.innerHTML = jobs.map(j => {
+    const t    = truck(j.truck);
+    const crew = j.crew.map(id => CREW.find(c=>c.id===id)?.name).filter(Boolean).join(', ');
+    const hrs  = Object.values(j.hours).reduce((a,b)=>a+b,0);
+    return `<div class="job-item">
+      <span class="job-truck-tag" style="background:${t?.bg||'#222'};color:${t?.color||'#fff'}">${j.truck}</span>
+      <div class="job-info">
+        <div class="job-name">${j.name} <span style="font-size:11px;color:var(--muted)">${j.type}</span></div>
+        <div class="job-meta">${j.date||''} · ${crew} · ${hrs.toFixed(1)}h</div>
+      </div>
+      <span class="job-rev">${fmt(j.rev)}</span>
+      <button class="job-delete" onclick="deleteJob(${j.id})">×</button>
+    </div>`;
+  }).join('');
+}
+</script>
+
+</body>
+</html>
