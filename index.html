@@ -24,7 +24,6 @@
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; }
-
 /* HEADER */
 header {
   background:var(--surface);
@@ -35,16 +34,24 @@ header {
 }
 .logo { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; color:var(--accent); }
 .logo span { color:var(--muted); font-size:14px; font-family:'DM Sans',sans-serif; letter-spacing:1px; margin-left:10px; }
+/* VIEW TABS (Revenue / Mileage) */
+.view-tabs { display:flex; gap:4px; margin-left:8px; }
+.view-tab {
+  background:transparent; border:1px solid var(--border); color:var(--muted);
+  padding:6px 16px; border-radius:6px; font-size:12px; cursor:pointer;
+  font-family:'DM Sans',sans-serif; letter-spacing:.5px; text-transform:uppercase;
+  transition:all .15s;
+}
+.view-tab:hover { color:var(--text); border-color:var(--accent); }
+.view-tab.active { background:var(--accent); border-color:var(--accent); color:#000; font-weight:600; }
 header .week-selector {
   margin-left:auto; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
 }
 header label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
-
 /* LAYOUT */
 .container { max-width:1380px; margin:0 auto; padding:28px 24px; }
 .grid-top { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:16px; margin-bottom:24px; }
 .grid-main { display:grid; grid-template-columns:450px 1fr; gap:20px; }
-
 /* STAT CARDS */
 .stat-card {
   background:var(--card); border:1px solid var(--border); border-radius:12px;
@@ -58,7 +65,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 .stat-label { font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:8px; }
 .stat-val { font-family:'Bebas Neue',sans-serif; font-size:38px; letter-spacing:1px; line-height:1; }
 .stat-sub { font-size:12px; color:var(--muted); margin-top:5px; }
-
 /* PANEL */
 .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
 .panel-header {
@@ -67,7 +73,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 }
 .panel-title { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1.5px; color:var(--text); }
 .panel-body { padding:20px; }
-
 /* FORM */
 .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
 .form-group { display:flex; flex-direction:column; gap:6px; }
@@ -79,7 +84,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 }
 .form-group input:focus, .form-group select:focus { outline:none; border-color:var(--accent); }
 .form-group select option { background:var(--surface); }
-
 /* CREW SELECTOR */
 .crew-grid { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
 .crew-chip {
@@ -97,9 +101,7 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 .crew-chip[data-role="measurer"].selected .dot { background:var(--green); }
 .crew-chip[data-role="helper"].selected   { background:rgba(188,140,255,0.12);border-color:var(--truck-d);  color:var(--truck-d);  }
 .crew-chip[data-role="helper"].selected .dot   { background:var(--truck-d); }
-
 .section-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:8px; margin-top:14px; }
-
 .btn-primary {
   width:100%; padding:12px; background:var(--accent); border:none;
   border-radius:8px; color:#000; font-family:'DM Sans',sans-serif; font-weight:600;
@@ -108,7 +110,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 }
 .btn-primary:hover { background:var(--accent2); }
 .btn-primary:active { transform:scale(.98); }
-
 /* CREW ALLOCATION CARDS */
 .alloc-grid { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
 .alloc-card {
@@ -154,7 +155,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 .alloc-total-row .pct-sum { font-family:'DM Mono',monospace; font-size:12px; }
 .pct-sum.ok  { color:var(--green); }
 .pct-sum.bad { color:var(--red); }
-
 /* TRUCKS */
 .truck-list { display:flex; flex-direction:column; gap:12px; }
 .truck-row {
@@ -172,7 +172,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 .truck-rev .rev-sub { font-size:11px; color:var(--muted); }
 .truck-bar-wrap { grid-column:1/-1; height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
 .truck-bar { height:100%; border-radius:2px; transition:width .5s ease; }
-
 /* EMPLOYEE TABLE */
 .emp-table { width:100%; border-collapse:collapse; }
 .emp-table th {
@@ -192,7 +191,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 .rev-hr-bar { display:flex; align-items:center; gap:8px; }
 .mini-bar { flex:1; height:6px; background:var(--border); border-radius:3px; overflow:hidden; max-width:80px; }
 .mini-bar-fill { height:100%; border-radius:3px; background:var(--accent); transition:width .5s; }
-
 /* JOBS LOG */
 .jobs-list { display:flex; flex-direction:column; gap:8px; max-height:340px; overflow-y:auto; }
 .jobs-list::-webkit-scrollbar { width:4px; }
@@ -211,10 +209,10 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 .job-rev { font-family:'DM Mono',monospace; font-size:14px; color:var(--accent); white-space:nowrap; }
 .job-delete { background:none; border:none; color:var(--muted); cursor:pointer; font-size:16px; padding:0 4px; transition:color .15s; }
 .job-delete:hover { color:var(--red); }
-
+.job-edit { background:none; border:none; color:var(--muted); cursor:pointer; font-size:14px; padding:0 4px; transition:color .15s; }
+.job-edit:hover { color:var(--accent); }
 .empty-state { text-align:center; color:var(--muted); padding:40px 20px; font-size:13px; }
 .empty-icon { font-size:32px; margin-bottom:10px; }
-
 /* WEEK TOGGLE */
 .week-tabs { display:flex; gap:6px; flex-wrap:wrap; }
 .week-tab {
@@ -226,15 +224,12 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 .week-tab:hover:not(.active) { border-color:var(--accent); color:var(--text); }
 .week-tab.dragging { opacity:0.4; cursor:grabbing; }
 .week-tab.drag-over { border-color:var(--truck-a); box-shadow:0 0 0 2px rgba(88,166,255,0.3); }
-
 .add-week-btn {
   background:transparent; border:1px dashed var(--border); color:var(--muted);
   padding:5px 14px; border-radius:20px; font-size:12px; cursor:pointer; transition:all .15s;
 }
 .add-week-btn:hover { border-color:var(--accent); color:var(--accent); }
-
 .alert { background:rgba(232,160,32,.1); border:1px solid rgba(232,160,32,.3); border-radius:8px; padding:10px 14px; font-size:13px; color:var(--accent); margin-bottom:12px; display:none; }
-
 /* GOOGLE SHEETS SETUP PANEL */
 .sheets-setup {
   background:rgba(88,166,255,0.06); border:1px solid rgba(88,166,255,0.2);
@@ -265,7 +260,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 .sheets-status.err { border-color:var(--red);   color:var(--red);   }
 .sheets-status.loading { border-color:var(--muted); color:var(--muted); animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
-
 .api-key-row { display:flex; gap:8px; align-items:center; margin-bottom:12px; }
 .api-key-row input {
   flex:1; background:var(--surface); border:1px solid var(--border); color:var(--text);
@@ -279,14 +273,12 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
   font-family:'DM Sans',sans-serif; transition:all .15s;
 }
 .btn-secondary:hover { background:rgba(88,166,255,0.2); }
-
 .sync-info {
   font-size:11px; color:var(--muted); margin-top:8px; padding:6px 10px;
   background:rgba(63,185,80,0.06); border:1px solid rgba(63,185,80,0.15); border-radius:6px;
   display:none;
 }
 .sync-info.visible { display:block; }
-
 /* WEEKLY REPORT */
 .report-week-block { padding:16px 20px; border-bottom:1px solid var(--border); }
 .report-week-block:last-child { border-bottom:none; }
@@ -318,10 +310,262 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
   font-size:9px; text-transform:uppercase; letter-spacing:1.2px; color:var(--muted);
 }
 .report-empty { text-align:center; color:var(--muted); padding:20px; font-size:12px; }
+/* ═══ MILEAGE VIEW ═══════════════════════════════════════════════════════ */
+#mileageView { display:none; }
+body.view-mileage #revenueView { display:none; }
+body.view-mileage #mileageView { display:block; }
+
+.mileage-week-picker {
+  background:var(--card); border:1px solid var(--border); border-radius:10px;
+  padding:12px 16px; margin-bottom:16px;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.mileage-week-picker-label {
+  font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted);
+}
+.mileage-week-chip {
+  background:var(--surface); border:1px solid var(--border); color:var(--muted);
+  padding:5px 14px; border-radius:20px; font-size:12px; cursor:pointer;
+  transition:all .15s; user-select:none;
+}
+.mileage-week-chip.on { background:var(--accent); border-color:var(--accent); color:#000; font-weight:600; }
+.mileage-week-chip:hover:not(.on) { border-color:var(--accent); color:var(--text); }
+.mileage-week-action {
+  background:transparent; border:none; color:var(--muted); font-size:11px;
+  text-transform:uppercase; letter-spacing:1px; cursor:pointer; padding:4px 8px;
+}
+.mileage-week-action:hover { color:var(--accent); }
+
+.mileage-totals {
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-bottom:24px;
+}
+.mileage-total-card {
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  padding:18px 20px; position:relative; overflow:hidden;
+}
+.mileage-total-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.mileage-total-card[data-installer="joseph"]::before  { background:var(--truck-j); }
+.mileage-total-card[data-installer="anthony"]::before { background:var(--truck-a); }
+.mileage-total-card[data-installer="david"]::before   { background:var(--truck-d); }
+.mileage-total-name { font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:6px; }
+.mileage-total-km { font-family:'Bebas Neue',sans-serif; font-size:42px; letter-spacing:1px; line-height:1; }
+.mileage-total-km .unit { font-size:16px; color:var(--muted); margin-left:4px; letter-spacing:0; }
+.mileage-total-sub { font-size:12px; color:var(--muted); margin-top:6px; }
+
+.mileage-settings {
+  background:var(--card); border:1px solid var(--border); border-radius:12px; margin-bottom:20px;
+}
+.mileage-settings-header {
+  padding:14px 20px; display:flex; align-items:center; justify-content:space-between;
+  cursor:pointer; user-select:none;
+}
+.mileage-settings-header h3 { font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:1.5px; }
+.mileage-settings-toggle { color:var(--muted); font-size:12px; }
+.mileage-settings-body { padding:0 20px 20px; display:none; }
+.mileage-settings.open .mileage-settings-body { display:block; }
+.mileage-settings.open .mileage-settings-toggle { transform:rotate(180deg); }
+.settings-group { margin-bottom:16px; }
+.settings-group-title {
+  font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted);
+  margin-bottom:8px;
+}
+.settings-row {
+  display:grid; grid-template-columns:100px 1fr auto; gap:8px; align-items:center;
+  margin-bottom:6px;
+}
+.settings-row label { font-size:12px; color:var(--muted); }
+.settings-row input {
+  background:var(--surface); border:1px solid var(--border); color:var(--text);
+  padding:7px 10px; border-radius:6px; font-family:'DM Mono',monospace; font-size:11px;
+  transition:border-color .2s;
+}
+.settings-row input:focus { outline:none; border-color:var(--accent); }
+.settings-status { font-size:11px; color:var(--muted); min-width:60px; }
+.settings-status.ok { color:var(--green); }
+.settings-status.err { color:var(--red); }
+
+.mileage-banner {
+  background:rgba(232,160,32,0.08); border:1px solid rgba(232,160,32,0.25);
+  border-radius:10px; padding:12px 16px; margin-bottom:20px;
+  display:flex; align-items:center; gap:12px; font-size:13px;
+}
+.mileage-banner .banner-icon { font-size:18px; }
+.mileage-banner .banner-msg { flex:1; color:var(--text); }
+.mileage-banner .banner-msg b { color:var(--accent); }
+
+.mileage-actions { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+.mileage-actions button {
+  padding:10px 18px; border-radius:8px; border:1px solid var(--border);
+  background:var(--surface); color:var(--text); font-family:'DM Sans',sans-serif;
+  font-size:13px; cursor:pointer; transition:all .15s;
+}
+.mileage-actions .btn-calc {
+  background:var(--accent); border-color:var(--accent); color:#000; font-weight:600;
+}
+.mileage-actions .btn-calc:hover { background:var(--accent2); }
+.mileage-actions button:disabled { opacity:.5; cursor:not-allowed; }
+
+.mileage-day-group { margin-bottom:24px; }
+.mileage-day-header {
+  font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:1.5px;
+  color:var(--muted); padding:8px 0 10px; border-bottom:1px solid var(--border);
+  margin-bottom:12px;
+}
+.mileage-day-header .day-date { color:var(--text); }
+
+.mileage-route-card {
+  background:var(--card); border:1px solid var(--border); border-radius:10px;
+  padding:14px 16px; margin-bottom:10px;
+}
+.mileage-route-head {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:10px; gap:10px;
+}
+.mileage-route-installer {
+  display:flex; align-items:center; gap:8px; font-weight:600; font-size:14px;
+}
+.mileage-route-installer .dot {
+  width:10px; height:10px; border-radius:50%;
+}
+.mileage-route-total {
+  font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px;
+}
+.mileage-route-total .unit { font-size:12px; color:var(--muted); margin-left:3px; letter-spacing:0; }
+.mileage-route-legs {
+  display:flex; flex-direction:column; gap:4px;
+  background:var(--surface); border-radius:6px; padding:8px 10px;
+}
+.mileage-leg {
+  display:grid; grid-template-columns:1fr 80px; gap:10px; align-items:center;
+  font-size:12px; padding:3px 0;
+}
+.mileage-leg-path { color:var(--muted); }
+.mileage-leg-path .arrow { color:var(--border); margin:0 4px; }
+.mileage-leg-path .waypoint { color:var(--text); }
+.mileage-leg-path .waypoint.home { color:var(--muted); font-style:italic; }
+.mileage-leg-path .waypoint.shop { color:var(--truck-a); }
+.mileage-leg-path .waypoint.job { color:var(--accent); }
+.mileage-leg-km { font-family:'DM Mono',monospace; text-align:right; color:var(--text); }
+.mileage-route-err {
+  font-size:12px; color:var(--red); padding:8px 10px;
+  background:rgba(224,82,82,0.08); border-radius:6px; margin-top:6px;
+}
+.mileage-empty {
+  background:var(--card); border:1px solid var(--border); border-radius:10px;
+  padding:40px 20px; text-align:center; color:var(--muted); font-size:13px;
+}
+
+/* WEEK SUMMARY TABLE */
+.mileage-week-summary {
+  background:var(--card); border:1px solid var(--border); border-radius:10px;
+  margin-bottom:24px; overflow:hidden;
+}
+.mileage-week-summary-header {
+  padding:14px 20px; border-bottom:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.mileage-week-summary-title {
+  font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:1.5px;
+}
+.mileage-week-summary table {
+  width:100%; border-collapse:collapse;
+}
+.mileage-week-summary th {
+  font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted);
+  text-align:right; padding:10px 14px; border-bottom:1px solid var(--border);
+  font-weight:500; background:var(--surface);
+}
+.mileage-week-summary th:first-child { text-align:left; }
+.mileage-week-summary td {
+  padding:10px 14px; border-bottom:1px solid rgba(33,38,45,.5);
+  font-size:13px; text-align:right; font-family:'DM Mono',monospace;
+}
+.mileage-week-summary td:first-child {
+  text-align:left; font-family:'DM Sans',sans-serif; font-weight:500;
+}
+.mileage-week-summary tr.summary-total td {
+  border-top:2px solid var(--border); border-bottom:none;
+  background:var(--surface); font-weight:600;
+}
+.mileage-week-summary tr:hover:not(.summary-total) td { background:rgba(255,255,255,.02); }
+.wks-km-joseph  { color:var(--truck-j); }
+.wks-km-anthony { color:var(--truck-a); }
+.wks-km-david   { color:var(--truck-d); }
+
+/* PRINT MEDIA — clean PDF output */
+@media print {
+  @page { margin:12mm; }
+  body { background:white !important; color:black !important; }
+  header, .view-tabs, .week-selector,
+  #revenueView,
+  .mileage-settings, .mileage-week-picker, .mileage-banner, .mileage-actions,
+  .modal-backdrop { display:none !important; }
+  body.view-mileage #mileageView { display:block !important; }
+  .container { max-width:none !important; padding:0 !important; }
+  .panel, .mileage-total-card, .mileage-route-card, .mileage-week-summary {
+    background:white !important; border:1px solid #ccc !important;
+    color:black !important; page-break-inside:avoid;
+    box-shadow:none !important;
+  }
+  .mileage-total-name, .mileage-total-km, .mileage-total-sub { color:black !important; }
+  .mileage-total-km .unit { color:#666 !important; }
+  .mileage-day-header { color:#333 !important; border-bottom-color:#ccc !important; }
+  .mileage-day-header .day-date { color:black !important; }
+  .mileage-route-installer .dot { border:1px solid #333; }
+  .mileage-route-legs { background:#f5f5f5 !important; }
+  .mileage-leg-path .waypoint { color:black !important; }
+  .mileage-leg-path .arrow { color:#999 !important; }
+  .mileage-leg-km { color:black !important; }
+  .mileage-week-summary th { background:#f0f0f0 !important; color:#333 !important; }
+  .mileage-week-summary td { color:black !important; }
+  .mileage-week-summary tr.summary-total td { background:#e8e8e8 !important; }
+  .wks-km-joseph  { color:#b86b00 !important; }
+  .wks-km-anthony { color:#2874c8 !important; }
+  .wks-km-david   { color:#7c4ddb !important; }
+  #mileagePrintTitle, #mileagePrintSub { display:block !important; }
+}
+#mileagePrintTitle, #mileagePrintSub { display:none; }
+
+/* MODAL (address prompt) */
+.modal-backdrop {
+  position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200;
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.modal-backdrop.visible { display:flex; }
+.modal {
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  max-width:640px; width:100%; max-height:90vh; overflow-y:auto;
+}
+.modal-header {
+  padding:16px 20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.modal-header h3 { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1.5px; }
+.modal-close { background:none; border:none; color:var(--muted); font-size:22px; cursor:pointer; }
+.modal-body { padding:20px; }
+.modal-intro { font-size:13px; color:var(--muted); margin-bottom:14px; }
+.modal-job-row {
+  background:var(--surface); border:1px solid var(--border); border-radius:8px;
+  padding:10px 12px; margin-bottom:8px;
+}
+.modal-job-title {
+  font-size:13px; font-weight:500; margin-bottom:4px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.modal-job-meta { font-size:11px; color:var(--muted); margin-bottom:8px; }
+.modal-job-input {
+  width:100%; background:var(--bg); border:1px solid var(--border); color:var(--text);
+  padding:8px 10px; border-radius:6px; font-size:12px; font-family:'DM Sans',sans-serif;
+}
+.modal-job-input:focus { outline:none; border-color:var(--accent); }
+.modal-job-row.from-cal { border-color:rgba(63,185,80,0.4); }
+.modal-job-row.from-cal .modal-job-input { border-color:rgba(63,185,80,0.4); }
+.modal-footer { padding:14px 20px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:8px; }
 
 @media(max-width:900px) {
   .grid-top { grid-template-columns:1fr 1fr; }
   .grid-main { grid-template-columns:1fr; }
+  .mileage-totals { grid-template-columns:1fr; }
 }
 @media(max-width:600px) {
   .grid-top { grid-template-columns:1fr; }
@@ -331,21 +575,25 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo">SPARTAN <span>Revenue Tracker</span></div>
+  <div class="view-tabs">
+    <button class="view-tab active" data-view="revenue" onclick="switchView('revenue')">Revenue</button>
+    <button class="view-tab" data-view="mileage" onclick="switchView('mileage')">Mileage</button>
+  </div>
   <div class="week-selector">
     <label>Week</label>
     <div class="week-tabs" id="weekTabs"></div>
     <button class="add-week-btn" onclick="addWeek()">+ Week</button>
     <div style="display:flex;gap:6px;margin-left:10px;">
-      <button onclick="exportData()" style="background:rgba(63,185,80,0.12);border:1px solid rgba(63,185,80,0.3);color:var(--green);padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.5px;">↓ Export Data</button>
-      <label style="background:rgba(88,166,255,0.12);border:1px solid rgba(88,166,255,0.3);color:var(--truck-a);padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.5px;">↑ Import Data<input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
+      <button onclick="exportData()" style="background:rgba(63,185,80,0.12);border:1px solid rgba(63,185,80,0.3);color:var(--green);padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.5px;">↓ Export</button>
+      <label style="background:rgba(88,166,255,0.12);border:1px solid rgba(88,166,255,0.3);color:var(--truck-a);padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.5px;">↑ Import<input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
     </div>
   </div>
 </header>
 
-<div class="container">
+<!-- ═══ REVENUE VIEW (original) ═══════════════════════════════════════════ -->
+<div id="revenueView" class="container">
   <!-- STAT STRIP -->
   <div class="grid-top">
     <div class="stat-card total">
@@ -369,11 +617,9 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
       <div class="stat-sub" id="topEarnerRev">this week</div>
     </div>
   </div>
-
   <div class="grid-main">
     <!-- LEFT: LOG JOB FORM -->
     <div>
-
       <!-- GOOGLE SHEETS SETUP -->
       <div class="panel" style="margin-bottom:16px;">
         <div class="panel-header">
@@ -384,12 +630,10 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
           <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">
             Paste your Google Sheets API key once. When you pick a date and select Sam, Luis, or Kim, their hours auto-fill from their sheets.
           </p>
-
           <div class="api-key-row">
             <input type="password" id="apiKeyInput" placeholder="Google Sheets API Key (AIza...)" autocomplete="off">
             <button class="btn-secondary" onclick="saveApiKey()">Save Key</button>
           </div>
-
           <div class="sheets-setup">
             <div class="sheets-setup-title"><span class="dot"></span>Sheet IDs (auto-configured)</div>
             <div class="sheets-row">
@@ -408,9 +652,7 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
               <div class="sheets-status" id="sts_kim">—</div>
             </div>
           </div>
-
           <div class="sync-info" id="syncInfo"></div>
-
           <div class="sheets-setup" style="margin-top:10px;border-color:rgba(232,160,32,0.2);background:rgba(232,160,32,0.04);">
             <div class="sheets-setup-title" style="color:var(--accent);">
               <span class="dot" style="background:var(--accent);"></span>Installer Day Totals
@@ -441,15 +683,13 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
           </div>
         </div>
       </div>
-
       <!-- LOG JOB FORM -->
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">Log a Job</div>
         </div>
         <div class="panel-body">
-          <div id="formAlert" class="alert">Please fill in job name, truck, revenue, and select at least one crew member.</div>
-
+          <div id="formAlert" class="alert">Please fill in job name, truck, revenue, address, shop (if applicable), and select at least one crew member.</div>
           <div class="form-row">
             <div class="form-group">
               <label>Job / Client Name</label>
@@ -460,7 +700,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
               <input type="date" id="jobDate" onchange="onDateChange()">
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Revenue ($)</label>
@@ -476,28 +715,40 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
               </select>
             </div>
           </div>
-
-          <div class="form-group">
-            <label>Job Type</label>
-            <select id="jobType">
-              <option value="Install">Install</option>
-              <option value="Measure">Measure</option>
-              <option value="Carry-In">Carry-In</option>
-              <option value="Repair">Repair</option>
-            </select>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Job Type</label>
+              <select id="jobType" onchange="onJobTypeChange()">
+                <option value="Install">Install</option>
+                <option value="Measure">Measure</option>
+                <option value="Carry-In">Carry-In</option>
+                <option value="Repair">Repair</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Shop (material pickup) <span id="jobShopRequired" style="color:var(--red);">*</span></label>
+              <select id="jobShop">
+                <option value="">— None —</option>
+                <option value="Ceragres">Ceragres</option>
+                <option value="Italnord">Italnord</option>
+                <option value="Chateau">Chateau</option>
+                <option value="Stone Age">Stone Age</option>
+                <option value="Eurostone">Eurostone</option>
+              </select>
+            </div>
           </div>
-
+          <div class="form-group">
+            <label>Job Site Address <span style="color:var(--red);">*</span></label>
+            <input type="text" id="jobAddress" placeholder="e.g. 1234 Main St, Montreal, QC H3X 1K2">
+          </div>
           <div class="section-label">Crew on this job</div>
           <div class="crew-grid" id="crewGrid"></div>
-
           <div class="section-label" style="margin-top:14px;">Crew Allocation</div>
           <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Hours for everyone · Revenue % split freely among installers (always totals 100%).</div>
           <div class="alloc-grid" id="allocGrid"></div>
-
           <button class="btn-primary" onclick="addJob()">＋ Log Job</button>
         </div>
       </div>
-
       <!-- JOBS LOG -->
       <div class="panel" style="margin-top:16px;">
         <div class="panel-header">
@@ -511,10 +762,8 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
         </div>
       </div>
     </div>
-
     <!-- RIGHT: ANALYTICS -->
     <div style="display:flex;flex-direction:column;gap:16px;">
-
       <!-- TRUCKS -->
       <div class="panel">
         <div class="panel-header">
@@ -524,7 +773,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
           <div class="truck-list" id="truckList"></div>
         </div>
       </div>
-
       <!-- INSTALLERS & MEASURERS -->
       <div class="panel">
         <div class="panel-header">
@@ -546,7 +794,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
           </table>
         </div>
       </div>
-
       <!-- HELPERS -->
       <div class="panel">
         <div class="panel-header">
@@ -568,7 +815,6 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
           </table>
         </div>
       </div>
-
       <!-- WEEKLY REPORT -->
       <div class="panel">
         <div class="panel-header">
@@ -579,14 +825,156 @@ header label { font-size:12px; color:var(--muted); text-transform:uppercase; let
           <div id="weeklyReport"></div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
+<!-- ═══ MILEAGE VIEW ═══════════════════════════════════════════════════════ -->
+<div id="mileageView" class="container">
+  <div id="mileagePrintTitle" style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;margin-bottom:4px;">SPARTAN — MILEAGE REPORT</div>
+  <div id="mileagePrintSub" style="display:none;font-size:12px;color:#555;margin-bottom:16px;"></div>
+
+  <!-- SETTINGS -->
+  <div class="mileage-settings" id="mileageSettings">
+    <div class="mileage-settings-header" onclick="toggleMileageSettings()">
+      <h3>Mileage Settings</h3>
+      <span class="mileage-settings-toggle">▼</span>
+    </div>
+    <div class="mileage-settings-body">
+      <div class="settings-group">
+        <div class="settings-group-title">Apps Script Proxy</div>
+        <p style="font-size:11px;color:var(--muted);margin-bottom:10px;">
+          Handles calendar lookup, address geocoding, AND driving distances in one place.
+          Deploy the Apps Script and paste its URL here — no other API key needed.
+        </p>
+        <div class="settings-row">
+          <label>Apps Script URL</label>
+          <input type="text" id="appsScriptInput" placeholder="https://script.google.com/.../exec">
+          <button class="btn-secondary" onclick="saveAppsScriptUrl()">Save</button>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-group-title">Home Addresses</div>
+        <div class="settings-row">
+          <label>Joseph</label>
+          <input type="text" id="addr_home_joseph">
+          <span class="settings-status" id="stat_home_joseph">—</span>
+        </div>
+        <div class="settings-row">
+          <label>Anthony</label>
+          <input type="text" id="addr_home_anthony">
+          <span class="settings-status" id="stat_home_anthony">—</span>
+        </div>
+        <div class="settings-row">
+          <label>David</label>
+          <input type="text" id="addr_home_david">
+          <span class="settings-status" id="stat_home_david">—</span>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-group-title">Shop Addresses</div>
+        <div class="settings-row">
+          <label>Ceragres</label>
+          <input type="text" id="addr_shop_ceragres">
+          <span class="settings-status" id="stat_shop_ceragres">—</span>
+        </div>
+        <div class="settings-row">
+          <label>Italnord</label>
+          <input type="text" id="addr_shop_italnord">
+          <span class="settings-status" id="stat_shop_italnord">—</span>
+        </div>
+        <div class="settings-row">
+          <label>Chateau</label>
+          <input type="text" id="addr_shop_chateau">
+          <span class="settings-status" id="stat_shop_chateau">—</span>
+        </div>
+        <div class="settings-row">
+          <label>Stone Age</label>
+          <input type="text" id="addr_shop_stoneage">
+          <span class="settings-status" id="stat_shop_stoneage">—</span>
+        </div>
+        <div class="settings-row">
+          <label>Eurostone</label>
+          <input type="text" id="addr_shop_eurostone">
+          <span class="settings-status" id="stat_shop_eurostone">—</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" style="margin-top:8px;" onclick="saveAddresses()">Save Addresses</button>
+    </div>
+  </div>
+
+  <!-- WEEK PICKER (multi-select) -->
+  <div class="mileage-week-picker">
+    <span class="mileage-week-picker-label">Include</span>
+    <div id="mileageWeekChips" style="display:flex;flex-wrap:wrap;gap:6px;flex:1;"></div>
+    <button class="mileage-week-action" onclick="setMileageWeeksAll()">All</button>
+    <button class="mileage-week-action" onclick="setMileageWeeksCurrent()">Current</button>
+  </div>
+
+  <!-- WEEKLY TOTALS -->
+  <div class="mileage-totals" id="mileageTotals"></div>
+
+  <!-- BANNER (missing addresses etc) -->
+  <div id="mileageBanner"></div>
+
+  <!-- ACTIONS -->
+  <div class="mileage-actions">
+    <button class="btn-calc" onclick="calculateMileage()">↻ Calculate Mileage</button>
+    <button onclick="promptMissingAddresses()">Enter Missing Addresses</button>
+    <button onclick="clearMileageCache()">Clear Cache</button>
+    <button onclick="printMileageReport()">🖨 Print / Save PDF</button>
+    <div style="margin-left:auto; font-size:11px; color:var(--muted); align-self:center;" id="mileageCacheInfo"></div>
+  </div>
+
+  <!-- WEEK SUMMARY (shown when 2+ weeks selected) -->
+  <div id="mileageWeekSummary"></div>
+
+  <!-- DAILY BREAKDOWN -->
+  <div id="mileageBody">
+    <div class="mileage-empty">No jobs in this week yet. Log jobs in the Revenue tab, then come back here.</div>
+  </div>
+</div>
+
+<!-- EDIT JOB MODAL -->
+<div class="modal-backdrop" id="editJobModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Edit Job</h3>
+      <button class="modal-close" onclick="closeEditJobModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="editJobContent"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeEditJobModal()">Cancel</button>
+      <button class="btn-primary" style="width:auto;margin:0;padding:10px 20px;" onclick="saveEditJob()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADDRESS PROMPT MODAL -->
+<div class="modal-backdrop" id="addressModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Job Site Addresses</h3>
+      <button class="modal-close" onclick="closeAddressModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-intro" id="modalIntro">These jobs don't have an address yet. Fill in what you can — green borders were auto-matched from your calendar.</p>
+      <div id="modalJobs"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeAddressModal()">Cancel</button>
+      <button class="btn-primary" style="width:auto;margin:0;padding:10px 20px;" onclick="saveAddressModal()">Save & Continue</button>
     </div>
   </div>
 </div>
 
 <script>
 // ─── CONSTANTS ──────────────────────────────────────────────────────────────
-
 const CREW = [
   { id:'joseph',  name:'Joseph',  role:'truck',    truckId:'Joseph'  },
   { id:'anthony', name:'Anthony', role:'truck',    truckId:'Anthony' },
@@ -594,17 +982,15 @@ const CREW = [
   { id:'cedrik',  name:'Cédrik',  role:'measurer'  },
   { id:'dad',     name:'Dad',     role:'measurer'  },
   { id:'sam',     name:'Sam',     role:'helper',   sheetId:'1uxS_FY7aUsdbCgZVmG0LhS4MQCCk-kKeVzf1j33Cq-k' },
-  { id:'kim',     name:'Kim',     role:'helper',   sheetId:'1CMojVvA8qw4BzO6cyCL2N1yx52LBnuS7rqZSuXnMwgU' },
+  { id:'kim',     name:'Kim',     role:'helper',   sheetId:'1CMojVvA8qw4BzO6cyCL2N1yx52LBnuS7rqZSuXnMwgU', hoursCol:5 },
   { id:'luis',    name:'Luis',    role:'helper',   sheetId:'1USdDalNu9DI6M1nNIankbgZ5ybeqp06rO1GcYkEWbYg' },
   { id:'mohammed', name:'Mohammed', role:'helper'    },
 ];
-
 const TRUCKS = [
   { id:'Joseph',  label:"Joseph's Truck",  color:'#e8a020', bg:'rgba(232,160,32,.15)' },
   { id:'Anthony', label:"Anthony's Truck", color:'#58a6ff', bg:'rgba(88,166,255,.15)' },
   { id:'David',   label:"David's Truck",   color:'#bc8cff', bg:'rgba(188,140,255,.15)' },
 ];
-
 // Month tab names exactly as in the sheets
 const MONTH_NAMES = [
   'January 2026','February 2026','March 2026','April 2026',
@@ -612,16 +998,28 @@ const MONTH_NAMES = [
   'September 2026','October 2026','November 2026','December 2026'
 ];
 
-// ─── STATE / STORAGE ────────────────────────────────────────────────────────
+// ─── MILEAGE CONSTANTS ──────────────────────────────────────────────────────
+const DEFAULT_HOME = {
+  joseph:  '1979 rue de Villiers, Montreal, QC H4E 1L2',
+  anthony: '175 Montée Des Cueilleurs, Terrebonne, QC J6Y 1X2',
+  david:   '1375 Rue Sérigny, Laval, QC H7E 1N8',
+};
+const DEFAULT_SHOPS = {
+  'Ceragres':  '825 Rue Deslauriers, Saint-Laurent, QC H4N 1X3',
+  'Italnord':  '835 Av. Selkirk, Pointe-Claire, QC H9R 3S2',
+  'Chateau':   '8680 Rue du Creusot, Saint-Léonard, QC H1P 2A7',
+  'Stone Age': '836 Av. Querbes, Outremont, QC H2V 3X3',
+  'Eurostone': '8145 Rue Pascal-Gagnon, Saint-Léonard, QC H1P 1Y3',
+};
+const SHOP_KEY_MAP = { 'Ceragres':'ceragres','Italnord':'italnord','Chateau':'chateau','Stone Age':'stoneage','Eurostone':'eurostone' };
 
+// ─── STATE / STORAGE ────────────────────────────────────────────────────────
 const KEY = 'spartan_tracker_v3';
 let state = { weeks:['Week 1'], currentWeek:'Week 1', jobs:{} };
-
 function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
 function load() {
   try { const d = localStorage.getItem(KEY); if(d) state = JSON.parse(d); } catch(e){}
 }
-
 function getApiKey()  { return localStorage.getItem('spartan_gsheets_key') || ''; }
 function saveApiKey() {
   const v = document.getElementById('apiKeyInput').value.trim();
@@ -630,28 +1028,56 @@ function saveApiKey() {
   document.getElementById('apiKeyInput').value = '';
   showSyncInfo('✓ API key saved. Hours will auto-fill when you select a date and helper.', 'green');
 }
-
 function currentJobs()       { return state.jobs[state.currentWeek] || []; }
 function setCurrentJobs(arr) { state.jobs[state.currentWeek] = arr; }
 
+// ─── MILEAGE STORAGE ───────────────────────────────────────────────────────
+function getOrsKey()        { return localStorage.getItem('spartan_ors_key') || ''; }
+function getAppsScriptUrl() { return localStorage.getItem('spartan_apps_script_url') || ''; }
+function getAddresses() {
+  try {
+    const d = localStorage.getItem('spartan_addresses');
+    if(d) return JSON.parse(d);
+  } catch(e){}
+  return { home:{...DEFAULT_HOME}, shops:{...DEFAULT_SHOPS} };
+}
+function saveAddressesToStorage(a) { localStorage.setItem('spartan_addresses', JSON.stringify(a)); }
+function getGeoCache() {
+  try { return JSON.parse(localStorage.getItem('spartan_geo_cache')||'{}'); } catch(e){ return {}; }
+}
+function saveGeoCache(c) { localStorage.setItem('spartan_geo_cache', JSON.stringify(c)); }
+function getLegCache() {
+  try { return JSON.parse(localStorage.getItem('spartan_leg_cache')||'{}'); } catch(e){ return {}; }
+}
+function saveLegCache(c) { localStorage.setItem('spartan_leg_cache', JSON.stringify(c)); }
+
+// Per-week mileage summaries — saved after each Calculate Mileage, used to
+// render the Week Summary table without having to recompute old weeks.
+function getWeekSnapshots() {
+  try { return JSON.parse(localStorage.getItem('spartan_week_snapshots')||'{}'); } catch(e){ return {}; }
+}
+function saveWeekSnapshots(s) { localStorage.setItem('spartan_week_snapshots', JSON.stringify(s)); }
+function invalidateWeekSnapshot(weekName) {
+  if(!weekName) return;
+  const s = getWeekSnapshots();
+  if(s[weekName]) { delete s[weekName]; saveWeekSnapshots(s); }
+}
+function weekOfJob(jobId) {
+  for(const w of Object.keys(state.jobs)) {
+    if((state.jobs[w]||[]).some(j => j.id === jobId)) return w;
+  }
+  return null;
+}
+
 // ─── HOURS CACHE ────────────────────────────────────────────────────────────
-// Cache fetched hours per (sheetId + date) so we don't re-fetch every toggle
-const hoursCache = {}; // key: `${sheetId}_${date}` → hours (number) or null
-
-// Installer day totals — keyed by `${installerId}_${date}` → number
-// Populated from the manual input fields in the Hours Sync panel
+const hoursCache = {};
 const installerDayCache = {};
-
 function getInstallerDayHrs(installerId, dateStr) {
   return installerDayCache[`${installerId}_${dateStr}`] || null;
 }
-
-// Returns the date currently selected in the installer date picker
 function getInstallerDate() {
   return document.getElementById('installerDate').value || '';
 }
-
-// When the installer date picker changes — reload fields with any cached values for that date
 function onInstallerDateChange() {
   const dateStr = getInstallerDate();
   ['joseph','anthony','david'].forEach(id => {
@@ -660,15 +1086,12 @@ function onInstallerDateChange() {
     if(el) el.value = cached != null ? cached : '';
   });
   updateInstallerDaySummary(dateStr);
-  // If job form date matches, rebuild alloc grid
   const jobDate = document.getElementById('jobDate').value;
   if(jobDate === dateStr) buildAllocGrid();
 }
-
 function onInstallerDayHrsChange(installerId) {
   const dateStr = getInstallerDate();
   if(!dateStr) {
-    // Nudge user to pick a date first
     const el = document.getElementById('installerDate');
     if(el) { el.style.borderColor = 'var(--accent)'; setTimeout(()=>el.style.borderColor='',1500); }
     return;
@@ -676,16 +1099,12 @@ function onInstallerDayHrsChange(installerId) {
   const val = parseFloat(document.getElementById(`dayhrs_${installerId}`).value) || 0;
   installerDayCache[`${installerId}_${dateStr}`] = val > 0 ? val : null;
   updateInstallerDaySummary(dateStr);
-  // Rebalance all jobs on this date for this installer
   rebalanceHoursForDate(dateStr);
   save();
   renderAll();
-  // Rebuild alloc grid if job form date matches
   const jobDate = document.getElementById('jobDate').value;
   if(jobDate === dateStr && selectedCrew.includes(installerId)) buildAllocGrid();
 }
-
-// Show a compact summary of how many jobs each installer has on the chosen date
 function updateInstallerDaySummary(dateStr) {
   const el = document.getElementById('installerDaySummary');
   if(!el || !dateStr) return;
@@ -701,31 +1120,18 @@ function updateInstallerDaySummary(dateStr) {
 }
 
 // ─── GOOGLE SHEETS FETCH ───────────────────────────────────────────────────
-
-/**
- * Given a date string "YYYY-MM-DD", returns the tab name e.g. "March 2026"
- */
 function tabNameForDate(dateStr) {
   const d = new Date(dateStr + 'T00:00:00');
-  return MONTH_NAMES[d.getMonth()]; // works for 2026 sheets
+  return MONTH_NAMES[d.getMonth()];
 }
-
-/**
- * Fetch hours for a person from their Google Sheet for a given date.
- * Sheet layout: col A = date string "YYYY-MM-DD", col E = Total Hours (numeric)
- * Returns: number of hours, or null if not found / error
- */
 async function fetchHoursFromSheet(crewMember, dateStr) {
   const apiKey = getApiKey();
   if(!apiKey) return null;
-
   const cacheKey = `${crewMember.sheetId}_${dateStr}`;
   if(hoursCache[cacheKey] !== undefined) return hoursCache[cacheKey];
-
   const tab     = tabNameForDate(dateStr);
   const range   = encodeURIComponent(`'${tab}'!A:G`);
   const url     = `https://sheets.googleapis.com/v4/spreadsheets/${crewMember.sheetId}/values/${range}?key=${apiKey}`;
-
   setSheetStatus(crewMember.id, 'loading');
   try {
     const res = await fetch(url);
@@ -738,32 +1144,24 @@ async function fetchHoursFromSheet(crewMember, dateStr) {
     }
     const data = await res.json();
     const rows = data.values || [];
-
-    // Normalize any date string to YYYY-MM-DD for comparison
     function normalizeDate(raw) {
       if(!raw) return '';
       const s = raw.toString().trim();
-      // Already YYYY-MM-DD
       if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-      // Google Sheets serial number (days since Dec 30 1899)
       if(/^\d{5}$/.test(s)) {
         const d = new Date((parseInt(s) - 25569) * 86400 * 1000);
         return d.toISOString().slice(0,10);
       }
-      // M/D/YYYY or D/M/YYYY or other parseable formats
       const d = new Date(s);
       if(!isNaN(d.getTime())) return d.toISOString().slice(0,10);
       return s;
     }
     const row = rows.find(r => normalizeDate(r[0]) === dateStr);
-
     if(!row) {
       hoursCache[cacheKey] = null;
       setSheetStatus(crewMember.id, 'ok');
       return null;
     }
-
-    // Use hoursCol if specified per crew member, else default to col E (index 4)
     const hIdx  = crewMember.hoursCol !== undefined ? crewMember.hoursCol : 4;
     const rawHrs = row.length > hIdx ? row[hIdx] : '0';
     const hrs = parseFloat(rawHrs);
@@ -772,7 +1170,6 @@ async function fetchHoursFromSheet(crewMember, dateStr) {
     setSheetStatus(crewMember.id, 'ok');
     console.log(`[HoursSync] ${crewMember.id} ${dateStr}: row found, raw col E = "${rawHrs}", parsed = ${hrs}`);
     return result;
-
   } catch(e) {
     console.warn('Fetch error:', e);
     setSheetStatus(crewMember.id, 'err');
@@ -780,16 +1177,13 @@ async function fetchHoursFromSheet(crewMember, dateStr) {
     return null;
   }
 }
-
 function setSheetStatus(crewId, status) {
-  // Map crew id to status element id
   const map = { sam:'sts_sam', luis:'sts_luis', kim:'sts_kim' };
   const el = document.getElementById(map[crewId]);
   if(!el) return;
   el.className = `sheets-status ${status}`;
   el.textContent = status === 'loading' ? '↻' : status === 'ok' ? '✓' : '✗';
 }
-
 function showSyncInfo(msg, color) {
   const el = document.getElementById('syncInfo');
   el.textContent = msg;
@@ -800,8 +1194,55 @@ function showSyncInfo(msg, color) {
   setTimeout(()=> el.classList.remove('visible'), 4000);
 }
 
-// ─── INIT ───────────────────────────────────────────────────────────────────
+// ─── EXPORT / IMPORT ────────────────────────────────────────────────────────
+function exportData() {
+  const payload = {
+    spartan_tracker:       JSON.parse(localStorage.getItem('spartan_tracker_v3')    || '{}'),
+    spartan_gsheets_key:   localStorage.getItem('spartan_gsheets_key')              || '',
+    spartan_ors_key:       localStorage.getItem('spartan_ors_key')                  || '',
+    spartan_apps_script:   localStorage.getItem('spartan_apps_script_url')          || '',
+    spartan_addresses:     localStorage.getItem('spartan_addresses')                || '{}',
+    spartan_mileage_weeks: localStorage.getItem('spartan_mileage_weeks')            || '[]',
+    spartan_week_snapshots:localStorage.getItem('spartan_week_snapshots')           || '{}',
+    spartan_geo_cache:     localStorage.getItem('spartan_geo_cache')                || '{}',
+    spartan_leg_cache:     localStorage.getItem('spartan_leg_cache')                || '{}',
+    exported: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = 'spartan-data-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
 
+function importData(e) {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const p = JSON.parse(ev.target.result);
+      if(p.spartan_tracker)        localStorage.setItem('spartan_tracker_v3',      JSON.stringify(p.spartan_tracker));
+      if(p.spartan_gsheets_key)    localStorage.setItem('spartan_gsheets_key',     p.spartan_gsheets_key);
+      if(p.spartan_ors_key)        localStorage.setItem('spartan_ors_key',          p.spartan_ors_key);
+      if(p.spartan_apps_script)    localStorage.setItem('spartan_apps_script_url',  p.spartan_apps_script);
+      if(p.spartan_addresses)      localStorage.setItem('spartan_addresses',        p.spartan_addresses);
+      if(p.spartan_mileage_weeks)  localStorage.setItem('spartan_mileage_weeks',    p.spartan_mileage_weeks);
+      if(p.spartan_week_snapshots) localStorage.setItem('spartan_week_snapshots',   p.spartan_week_snapshots);
+      if(p.spartan_geo_cache)      localStorage.setItem('spartan_geo_cache',        p.spartan_geo_cache);
+      if(p.spartan_leg_cache)      localStorage.setItem('spartan_leg_cache',        p.spartan_leg_cache);
+      load(); buildWeekTabs(); buildCrewGrid(); renderAll();
+      alert('✓ Data imported! All jobs, mileage, addresses and settings restored.');
+    } catch(err) {
+      alert('Import failed — make sure you selected a valid Spartan export file.');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// ─── INIT ───────────────────────────────────────────────────────────────────
 load();
 buildWeekTabs();
 buildCrewGrid();
@@ -809,16 +1250,14 @@ renderAll();
 const _today = new Date();
 document.getElementById('jobDate').valueAsDate = _today;
 document.getElementById('installerDate').valueAsDate = _today;
-
-// Restore API key placeholder hint
 if(getApiKey()) {
   document.getElementById('apiKeyInput').placeholder = '••••••••••••••••••••• (saved)';
 }
+initMileageSettingsUI();
+onJobTypeChange();
 
 // ─── WEEKS ──────────────────────────────────────────────────────────────────
-
 let dragSrcWeek = null;
-
 function buildWeekTabs() {
   const el = document.getElementById('weekTabs');
   el.innerHTML = '';
@@ -829,8 +1268,6 @@ function buildWeekTabs() {
     btn.title = 'Drag to reorder · Double-click to rename';
     btn.draggable = true;
     btn.dataset.week = w;
-
-    // ── Click vs double-click ──
     let clickTimer = null;
     btn.addEventListener('click', () => {
       if(clickTimer) {
@@ -846,8 +1283,6 @@ function buildWeekTabs() {
         }, 220);
       }
     });
-
-    // ── Drag to reorder ──
     btn.addEventListener('dragstart', (e) => {
       dragSrcWeek = w;
       btn.classList.add('dragging');
@@ -862,14 +1297,11 @@ function buildWeekTabs() {
       e.dataTransfer.dropEffect = 'move';
       if(w !== dragSrcWeek) btn.classList.add('drag-over');
     });
-    btn.addEventListener('dragleave', () => {
-      btn.classList.remove('drag-over');
-    });
+    btn.addEventListener('dragleave', () => { btn.classList.remove('drag-over'); });
     btn.addEventListener('drop', (e) => {
       e.preventDefault();
       btn.classList.remove('drag-over');
       if(!dragSrcWeek || dragSrcWeek === w) return;
-      // Reorder: move dragSrcWeek to position of w
       const fromIdx = state.weeks.indexOf(dragSrcWeek);
       const toIdx   = state.weeks.indexOf(w);
       if(fromIdx === -1 || toIdx === -1) return;
@@ -879,11 +1311,9 @@ function buildWeekTabs() {
       save();
       buildWeekTabs();
     });
-
     el.appendChild(btn);
   });
 }
-
 function renameWeek(oldName, btn) {
   const input = document.createElement('input');
   input.type = 'text';
@@ -897,33 +1327,41 @@ function renameWeek(oldName, btn) {
   btn.replaceWith(input);
   input.focus();
   input.select();
-
   const commit = () => {
     const newName = input.value.trim() || oldName;
     if(newName !== oldName) {
-      // Rename in weeks array
       const idx = state.weeks.indexOf(oldName);
       if(idx !== -1) state.weeks[idx] = newName;
-      // Migrate jobs data to new key
       if(state.jobs[oldName]) {
         state.jobs[newName] = state.jobs[oldName];
         delete state.jobs[oldName];
       }
-      // Update currentWeek pointer
       if(state.currentWeek === oldName) state.currentWeek = newName;
+      // Migrate the saved summary snapshot under the new name
+      const snaps = getWeekSnapshots();
+      if(snaps[oldName]) {
+        snaps[newName] = snaps[oldName];
+        delete snaps[oldName];
+        saveWeekSnapshots(snaps);
+      }
+      // Migrate selected-mileage-weeks selection too
+      const sel = getSelectedMileageWeeks();
+      const selIdx = sel.indexOf(oldName);
+      if(selIdx !== -1) {
+        sel[selIdx] = newName;
+        saveSelectedMileageWeeks(sel);
+      }
       save();
     }
     buildWeekTabs();
     renderAll();
   };
-
   input.addEventListener('blur', commit);
   input.addEventListener('keydown', e => {
     if(e.key === 'Enter') { e.preventDefault(); input.blur(); }
     if(e.key === 'Escape') { input.value = oldName; input.blur(); }
   });
 }
-
 function addWeek() {
   const n = state.weeks.length + 1;
   const label = 'Week ' + n;
@@ -932,17 +1370,32 @@ function addWeek() {
   save(); buildWeekTabs(); renderAll();
 }
 
-// ─── DATE CHANGE ────────────────────────────────────────────────────────────
+// ─── VIEW SWITCH ───────────────────────────────────────────────────────────
+function switchView(view) {
+  document.body.classList.toggle('view-mileage', view === 'mileage');
+  document.querySelectorAll('.view-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.view === view);
+  });
+  if(view === 'mileage') renderMileage();
+}
 
+// ─── DATE CHANGE ────────────────────────────────────────────────────────────
 function onDateChange() {
-  allocState = {}; // reset so hours re-fetch for new date
+  allocState = {};
   buildAllocGrid();
 }
 
+// ─── JOB TYPE CHANGE ────────────────────────────────────────────────────────
+// Toggle the "Shop required" asterisk based on whether material pickup applies.
+function onJobTypeChange() {
+  const type = document.getElementById('jobType').value;
+  const shopRequired = (type === 'Install' || type === 'Carry-In');
+  const star = document.getElementById('jobShopRequired');
+  if(star) star.style.display = shopRequired ? 'inline' : 'none';
+}
+
 // ─── CREW GRID ──────────────────────────────────────────────────────────────
-
 let selectedCrew = [];
-
 function buildCrewGrid() {
   const grid = document.getElementById('crewGrid');
   grid.innerHTML = '';
@@ -956,7 +1409,6 @@ function buildCrewGrid() {
     grid.appendChild(chip);
   });
 }
-
 function toggleCrew(id, chip) {
   if(selectedCrew.includes(id)) {
     selectedCrew = selectedCrew.filter(x => x !== id);
@@ -966,11 +1418,10 @@ function toggleCrew(id, chip) {
     selectedCrew.push(id);
     chip.classList.add('selected');
   }
-  // Whenever installer composition changes, recalculate even split among installers
   const c = CREW.find(x => x.id === id);
   if(c && c.role === 'truck') {
     const installerIds = selectedCrew.filter(sid => CREW.find(x => x.id === sid)?.role === 'truck');
-    const newPcts = defaultPctForCrew(selectedCrew); // returns 0 for helpers automatically
+    const newPcts = defaultPctForCrew(selectedCrew);
     installerIds.forEach(tid => {
       if(allocState[tid]) allocState[tid].pct = newPcts[tid];
       else allocState[tid] = { hrs: null, pct: newPcts[tid] };
@@ -978,13 +1429,6 @@ function toggleCrew(id, chip) {
   }
   buildAllocGrid();
 }
-
-/**
- * For a sheet-backed helper on a given date, calculate how many jobs they
- * already appear in (across ALL weeks in state) for that date.
- * Returns count of existing jobs — used to compute the split denominator
- * which will be existingCount + 1 (the job being added now).
- */
 function existingJobCountForPersonOnDate(personId, dateStr) {
   let count = 0;
   Object.values(state.jobs).forEach(weekJobs => {
@@ -994,14 +1438,7 @@ function existingJobCountForPersonOnDate(personId, dateStr) {
   });
   return count;
 }
-
-/**
- * After adding a new job, retroactively re-split hours for sheet-backed helpers
- * across all jobs on the same date (including the new one just added).
- * dayTotal for each person comes from hoursCache.
- */
 function rebalanceHoursForDate(dateStr) {
-  // Rebalance sheet-backed helpers (Sam, Luis, Kim)
   const sheetCrew = CREW.filter(c => c.sheetId);
   sheetCrew.forEach(c => {
     const cacheKey = `${c.sheetId}_${dateStr}`;
@@ -1017,8 +1454,6 @@ function rebalanceHoursForDate(dateStr) {
     const share = Math.round((dayTotal / matchingJobs.length) * 100) / 100;
     matchingJobs.forEach(j => { j.hours[c.id] = share; });
   });
-
-  // Rebalance installers (Joseph, Anthony, David) using manual day totals
   const installerCrew = CREW.filter(c => c.role === 'truck');
   installerCrew.forEach(c => {
     const dayTotal = getInstallerDayHrs(c.id, dateStr);
@@ -1036,11 +1471,8 @@ function rebalanceHoursForDate(dateStr) {
 }
 
 // ─── ALLOCATION GRID ────────────────────────────────────────────────────────
-// Per-job state: revPct per crew member (0-100). Hours only stored for sheet-backed helpers.
-let allocState = {}; // { crewId: { hrs: number|null, pct: number } }
-
+let allocState = {};
 function defaultPctForCrew(ids) {
-  // Split 100% evenly among truck drivers; helpers/measurers always get 0%
   const truckIds = ids.filter(id => CREW.find(x => x.id === id)?.role === 'truck');
   const n = truckIds.length;
   const base = n > 0 ? Math.floor(100 / n) : 0;
@@ -1050,40 +1482,30 @@ function defaultPctForCrew(ids) {
   truckIds.forEach((id, i) => { result[id] = base + (i === 0 ? rem : 0); });
   return result;
 }
-
 async function buildAllocGrid() {
   const grid    = document.getElementById('allocGrid');
   const dateStr = document.getElementById('jobDate').value;
   const revRaw  = parseFloat(document.getElementById('jobRev').value) || 0;
   grid.innerHTML = '';
-
   if(selectedCrew.length === 0) return;
-
-  // Init allocState with even % split, preserving any existing values
   const defaultPcts = defaultPctForCrew(selectedCrew);
   selectedCrew.forEach(id => {
     if(!allocState[id]) {
       allocState[id] = { hrs: null, pct: defaultPcts[id] };
     }
   });
-  // Remove any deselected crew
   Object.keys(allocState).forEach(id => {
     if(!selectedCrew.includes(id)) delete allocState[id];
   });
-
-  // Build a card per crew member
   for(const id of selectedCrew) {
     const c   = CREW.find(x => x.id === id);
     const st  = allocState[id];
     const revShare = Math.round(revRaw * st.pct / 100 * 100) / 100;
-
     const card = document.createElement('div');
     card.className = 'alloc-card';
     card.id = `ac_${id}`;
-
     const hrsVal = st.hrs !== null ? st.hrs : '';
     const hrsPlaceholder = c.sheetId ? '...' : (c.role === 'truck' ? 'enter day total →' : '0');
-
     card.innerHTML = `
       <div class="alloc-name">${c.name}</div>
       <div class="alloc-field">
@@ -1107,10 +1529,7 @@ async function buildAllocGrid() {
         <div class="alloc-label">Rev $</div>
         <div class="alloc-rev-display" id="rev_${id}" style="${c.role !== 'truck' ? 'color:var(--muted);' : ''}">${c.role === 'truck' && revShare > 0 ? fmt(revShare) : '—'}</div>
       </div>`;
-
     grid.appendChild(card);
-
-    // Wire up % input → update rev display + allocState
     document.getElementById(`pct_${id}`).addEventListener('input', function() {
       const pct = Math.min(100, Math.max(0, parseFloat(this.value) || 0));
       allocState[id].pct = pct;
@@ -1120,15 +1539,10 @@ async function buildAllocGrid() {
       if(revEl) revEl.textContent = share > 0 ? fmt(share) : '—';
       updatePctTotal();
     });
-
-    // Wire up hrs input → update allocState
     document.getElementById(`hrs_${id}`).addEventListener('input', function() {
       allocState[id].hrs = parseFloat(this.value) || 0;
     });
-
-    // Auto-fill hours from sheet (helpers) or installer day cache (trucks)
     if(c.sheetId && dateStr) {
-      // Sheet-backed helper: async fetch
       (async () => {
         const dayTotal = await fetchHoursFromSheet(c, dateStr);
         if(dayTotal !== null && dayTotal > 0) {
@@ -1147,7 +1561,6 @@ async function buildAllocGrid() {
         }
       })();
     } else if(c.role === 'truck' && dateStr) {
-      // Installer: use manual day total from the Hours Sync panel
       const dayTotal = getInstallerDayHrs(id, dateStr);
       if(dayTotal !== null && dayTotal > 0) {
         const existingCount = existingJobCountForPersonOnDate(id, dateStr);
@@ -1156,7 +1569,6 @@ async function buildAllocGrid() {
         allocState[id].hrs  = share;
         const inp = document.getElementById(`hrs_${id}`);
         if(inp) inp.value = share;
-        // Show split pill
         const labelEl = card.querySelector('.alloc-label');
         if(labelEl && !labelEl.querySelector('.sync-pill')) {
           const pill = document.createElement('span');
@@ -1169,8 +1581,6 @@ async function buildAllocGrid() {
       }
     }
   }
-
-  // Total row
   const totalRow = document.createElement('div');
   totalRow.className = 'alloc-total-row';
   totalRow.id = 'allocTotalRow';
@@ -1178,9 +1588,7 @@ async function buildAllocGrid() {
   grid.appendChild(totalRow);
   updatePctTotal();
 }
-
 function updatePctTotal() {
-  // Only validate % across installers — helpers are always 0 and excluded
   const truckIds = selectedCrew.filter(id => CREW.find(c => c.id === id)?.role === 'truck');
   const sum = truckIds.reduce((s, id) => {
     const el = document.getElementById(`pct_${id}`);
@@ -1196,8 +1604,6 @@ function updatePctTotal() {
   el.textContent = sum + '%';
   el.className = 'pct-sum ' + (Math.abs(sum - 100) < 1 ? 'ok' : 'bad');
 }
-
-// Recalculate rev displays when revenue field changes
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('jobRev').addEventListener('input', () => {
     const rv = parseFloat(document.getElementById('jobRev').value) || 0;
@@ -1213,22 +1619,31 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ─── ADD JOB ────────────────────────────────────────────────────────────────
-
 function addJob() {
-  const name  = document.getElementById('jobName').value.trim();
-  const date  = document.getElementById('jobDate').value;
-  const rev   = parseFloat(document.getElementById('jobRev').value) || 0;
-  const truck = document.getElementById('jobTruck').value;
-  const type  = document.getElementById('jobType').value;
-  const alrt  = document.getElementById('formAlert');
-
-  if(!name || !truck || rev <= 0 || selectedCrew.length === 0) {
+  const name    = document.getElementById('jobName').value.trim();
+  const date    = document.getElementById('jobDate').value;
+  const rev     = parseFloat(document.getElementById('jobRev').value) || 0;
+  const truck   = document.getElementById('jobTruck').value;
+  const type    = document.getElementById('jobType').value;
+  const shop    = document.getElementById('jobShop').value;
+  const address = document.getElementById('jobAddress').value.trim();
+  const alrt    = document.getElementById('formAlert');
+  // Shop is required for Install / Carry-In (material pickup days).
+  // Not required for Measure / Repair (no slabs to pick up).
+  const shopRequired = (type === 'Install' || type === 'Carry-In');
+  const problems = [];
+  if(!name) problems.push('job name');
+  if(!truck) problems.push('truck');
+  if(rev <= 0) problems.push('revenue');
+  if(selectedCrew.length === 0) problems.push('crew');
+  if(!address) problems.push('job site address');
+  if(shopRequired && !shop) problems.push('shop (required for Install / Carry-In)');
+  if(problems.length > 0) {
+    alrt.textContent = 'Please fill in: ' + problems.join(', ') + '.';
     alrt.style.display = 'block';
-    setTimeout(() => alrt.style.display = 'none', 3000);
+    setTimeout(() => alrt.style.display = 'none', 4000);
     return;
   }
-
-  // Collect hours and revPct per crew member
   const hours  = {};
   const revPct = {};
   selectedCrew.forEach(id => {
@@ -1237,85 +1652,41 @@ function addJob() {
     hours[id]  = parseFloat(hrsEl?.value)  || 0;
     revPct[id] = parseFloat(pctEl?.value)  || 0;
   });
-
-  const job = { id:Date.now(), name, date, rev, truck, type, crew:[...selectedCrew], hours, revPct };
+  const job = { id:Date.now(), name, date, rev, truck, type, shop, address, crew:[...selectedCrew], hours, revPct };
   const jobs = currentJobs();
   jobs.unshift(job);
   setCurrentJobs(jobs);
-
-  // Rebalance sheet-backed helper hours evenly across all jobs on this date
   rebalanceHoursForDate(date);
-
+  // Invalidate the snapshot for this week since mileage numbers just changed
+  invalidateWeekSnapshot(state.currentWeek);
+  mileageResult = null;
   save();
-
   // reset form
-  document.getElementById('jobName').value  = '';
-  document.getElementById('jobRev').value   = '';
-  document.getElementById('jobTruck').value = '';
+  document.getElementById('jobName').value    = '';
+  document.getElementById('jobRev').value     = '';
+  document.getElementById('jobTruck').value   = '';
+  document.getElementById('jobShop').value    = '';
+  document.getElementById('jobAddress').value = '';
   selectedCrew = [];
   allocState   = {};
   document.querySelectorAll('.crew-chip').forEach(c => c.classList.remove('selected'));
   document.getElementById('allocGrid').innerHTML = '';
-
   renderAll();
 }
-
 function deleteJob(id) {
   const job = currentJobs().find(j => j.id === id);
   const date = job?.date;
   setCurrentJobs(currentJobs().filter(j => j.id !== id));
   if(date) rebalanceHoursForDate(date);
+  invalidateWeekSnapshot(state.currentWeek);
+  mileageResult = null;
   save(); renderAll();
 }
 
 // ─── RENDER ─────────────────────────────────────────────────────────────────
-
 function fmt(n) {
   return '$' + n.toLocaleString('en-CA', {minimumFractionDigits:0, maximumFractionDigits:0});
 }
-
-// ─── EXPORT / IMPORT ────────────────────────────────────────────────────────
-function exportData() {
-  const payload = {
-    spartan_tracker: JSON.parse(localStorage.getItem('spartan_tracker_v3') || '{}'),
-    spartan_gsheets_key: localStorage.getItem('spartan_gsheets_key') || '',
-    exported: new Date().toISOString()
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
-  const a    = document.createElement('a');
-  a.href     = URL.createObjectURL(blob);
-  a.download = `spartan-data-${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-function importData(e) {
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try {
-      const payload = JSON.parse(ev.target.result);
-      if(payload.spartan_tracker) {
-        localStorage.setItem('spartan_tracker_v3', JSON.stringify(payload.spartan_tracker));
-      }
-      if(payload.spartan_gsheets_key) {
-        localStorage.setItem('spartan_gsheets_key', payload.spartan_gsheets_key);
-        document.getElementById('apiKeyInput').placeholder = '••••••••••••••••••••• (saved)';
-      }
-      load();
-      buildWeekTabs();
-      buildCrewGrid();
-      renderAll();
-      alert('✓ Data imported successfully!');
-    } catch(err) {
-      alert('Import failed — make sure you selected a valid Spartan export file.');
-    }
-  };
-  reader.readAsText(file);
-  e.target.value = ''; // reset so same file can be re-imported
-}
-
 function renderAll() {
   const jobs = currentJobs();
   renderStats(jobs);
@@ -1323,9 +1694,8 @@ function renderAll() {
   renderEmployees(jobs);
   renderJobLog(jobs);
   renderWeeklyReport();
+  if(document.body.classList.contains('view-mileage')) renderMileage();
 }
-
-// ─── INSTALLER REVENUE CALC (shared helper) ─────────────────────────────────
 function calcInstallerData(jobs) {
   const installers = CREW.filter(c => c.role === 'truck');
   return installers.map(c => {
@@ -1341,13 +1711,9 @@ function calcInstallerData(jobs) {
     return { ...c, rev, hrs, rph, jobCount:myJobs.length, color: truck?.color||'#e8a020' };
   });
 }
-
-// ─── WEEKLY REPORT ──────────────────────────────────────────────────────────
 function renderWeeklyReport() {
   const el = document.getElementById('weeklyReport');
   if(!el) return;
-
-  // Build report for ALL weeks, sorted in state.weeks order
   const blocks = state.weeks.map(week => {
     const jobs = state.jobs[week] || [];
     const installers = calcInstallerData(jobs);
@@ -1356,17 +1722,13 @@ function renderWeeklyReport() {
     const weekRph   = weekHrs > 0 ? weekTotal / weekHrs : 0;
     return { week, jobs, installers, weekTotal, weekHrs, weekRph };
   });
-
   if(blocks.every(b => b.jobs.length === 0)) {
     el.innerHTML = '<div class="report-empty">No jobs logged yet. Start adding jobs to see your weekly breakdown.</div>';
     return;
   }
-
   const maxRev = Math.max(...blocks.map(b => Math.max(...b.installers.map(i => i.rev), 0)), 1);
-
   el.innerHTML = blocks.map(b => {
     if(b.jobs.length === 0) return '';
-
     const rows = b.installers
       .filter(i => i.jobCount > 0)
       .sort((a,z) => z.rev - a.rev)
@@ -1381,9 +1743,7 @@ function renderWeeklyReport() {
           <span class="report-rph ${rphClass}">${i.rph > 0 ? fmt(i.rph) : '—'}</span>
         </div>`;
       }).join('');
-
     const rphClass = b.weekRph >= 200 ? 'good' : b.weekRph >= 120 ? 'ok' : 'low';
-
     return `<div class="report-week-block${b.week === state.currentWeek ? ' active' : ''}">
       <div class="report-week-title">
         <span>${b.week}</span>
@@ -1399,8 +1759,6 @@ function renderWeeklyReport() {
     </div>`;
   }).join('');
 }
-
-// ─── COPY REPORT ────────────────────────────────────────────────────────────
 function copyReport() {
   const lines = [];
   state.weeks.forEach(week => {
@@ -1410,7 +1768,6 @@ function copyReport() {
     const weekTotal = installers.reduce((s,i) => s + i.rev, 0);
     const weekHrs   = installers.reduce((s,i) => s + i.hrs, 0);
     const weekRph   = weekHrs > 0 ? weekTotal / weekHrs : 0;
-
     lines.push('═'.repeat(36));
     lines.push(week.toUpperCase());
     lines.push('─'.repeat(36));
@@ -1423,14 +1780,11 @@ function copyReport() {
     lines.push(`${'TOTAL'.padEnd(10)} ${fmt(weekTotal).padStart(10)}  ${(weekHrs.toFixed(1)+'h').padStart(6)}  ${totalRph.padStart(8)}`);
     lines.push('');
   });
-
   if(lines.length === 0) return;
-
   navigator.clipboard.writeText(lines.join('\n')).then(() => {
     const btn = document.querySelector('[onclick="copyReport()"]');
     if(btn) { btn.textContent = '✓ Copied!'; setTimeout(()=>btn.textContent='Copy Report',2000); }
   }).catch(() => {
-    // fallback for non-https
     const ta = document.createElement('textarea');
     ta.value = lines.join('\n');
     document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
@@ -1438,12 +1792,10 @@ function copyReport() {
     if(btn) { btn.textContent = '✓ Copied!'; setTimeout(()=>btn.textContent='Copy Report',2000); }
   });
 }
-
 function renderStats(jobs) {
   const totalRev = jobs.reduce((s,j) => s + j.rev, 0);
   const totalHrs = jobs.reduce((s,j) => s + Object.values(j.hours).reduce((a,b)=>a+b,0), 0);
   const revPerHr = totalHrs > 0 ? totalRev/totalHrs : 0;
-
   const empRevMap = {};
   jobs.forEach(j => {
     j.crew.forEach(id => {
@@ -1456,7 +1808,6 @@ function renderStats(jobs) {
   let topId = null, topVal = 0;
   Object.entries(empRevMap).forEach(([id,v]) => { if(v>topVal){topVal=v;topId=id;} });
   const topName = topId ? CREW.find(c=>c.id===topId)?.name : '—';
-
   document.getElementById('totalRev').textContent    = fmt(totalRev);
   document.getElementById('totalJobs').textContent   = jobs.length + ' jobs logged';
   document.getElementById('totalHours').textContent  = totalHrs.toFixed(1) + 'h';
@@ -1465,24 +1816,16 @@ function renderStats(jobs) {
   document.getElementById('topEarner').textContent   = topName || '—';
   document.getElementById('topEarnerRev').textContent = topId ? fmt(topVal) + ' attributed' : 'this week';
 }
-
 function renderTrucks(jobs) {
   const el = document.getElementById('truckList');
-  // Total attributed revenue across all installers
   const totalRev = jobs.reduce((s,j)=>s+j.rev,0);
-
-  // Each installer card shows their personal attributed revenue across ALL jobs
-  // (not filtered by which truck was used — truck is just the vehicle)
   const installerData = TRUCKS.map(t => {
     const installer = CREW.find(c => c.truckId === t.id);
     if(!installer) return { ...t, rev:0, hrs:0, jobCount:0 };
-
-    // All jobs where this installer was on crew
     const myJobs = jobs.filter(j => j.crew.includes(installer.id));
     const rev = myJobs.reduce((s,j) => {
       if(j.revPct && j.revPct[installer.id] !== undefined)
         return s + j.rev * j.revPct[installer.id] / 100;
-      // fallback: solo installer gets full job rev
       const installerCrew = j.crew.filter(id => CREW.find(c=>c.id===id)?.role==='truck');
       return s + (installerCrew.length > 0 ? j.rev / installerCrew.length : j.rev);
     }, 0);
@@ -1490,7 +1833,6 @@ function renderTrucks(jobs) {
     const jobCount = myJobs.length;
     return { ...t, rev, hrs, jobCount };
   }).sort((a,b) => b.rev - a.rev);
-
   el.innerHTML = installerData.map(t => {
     const pct = totalRev > 0 ? (t.rev/totalRev*100) : 0;
     const rph = t.hrs > 0 ? (t.rev/t.hrs) : 0;
@@ -1511,25 +1853,21 @@ function renderTrucks(jobs) {
       </div>`;
   }).join('');
 }
-
 function renderEmployees(jobs) {
-  // ── Installers + Measurers table (revenue ownership) ──────────────────────
   const tbody   = document.getElementById('empBody');
   const staffCrew = CREW.filter(c => c.role === 'truck' || c.role === 'measurer');
   let maxRph = 0;
-
   const staffData = staffCrew.map(c => {
     const cJobs = jobs.filter(j => j.crew.includes(c.id));
     const rev   = cJobs.reduce((s,j) => {
       if(j.revPct && j.revPct[c.id] !== undefined) return s + (j.rev * j.revPct[c.id] / 100);
-      return s + (c.role === 'truck' ? j.rev : 0); // measurers get 0 by default
+      return s + (c.role === 'truck' ? j.rev : 0);
     }, 0);
     const hrs = cJobs.reduce((s,j) => s + (j.hours[c.id]||0), 0);
     const rph = hrs > 0 ? rev / hrs : 0;
     if(rph > maxRph) maxRph = rph;
     return { ...c, jobCount:cJobs.length, rev, hrs, rph };
   }).sort((a,b) => b.rev - a.rev);
-
   tbody.innerHTML = staffData.length === 0
     ? `<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;font-size:12px;">No jobs logged yet</td></tr>`
     : staffData.map(e => {
@@ -1547,21 +1885,17 @@ function renderEmployees(jobs) {
           </td>
         </tr>`;
       }).join('');
-
-  // ── Helpers table (labour contribution — supported revenue) ────────────────
   const hbody      = document.getElementById('helperBody');
   const helperCrew = CREW.filter(c => c.role === 'helper');
   let maxSupportedRev = 0;
-
   const helperData = helperCrew.map(c => {
     const cJobs        = jobs.filter(j => j.crew.includes(c.id));
-    const supportedRev = cJobs.reduce((s,j) => s + j.rev, 0); // total rev of jobs they were on
+    const supportedRev = cJobs.reduce((s,j) => s + j.rev, 0);
     const hrs          = cJobs.reduce((s,j) => s + (j.hours[c.id]||0), 0);
     const hrsPerJob    = cJobs.length > 0 ? hrs / cJobs.length : 0;
     if(supportedRev > maxSupportedRev) maxSupportedRev = supportedRev;
     return { ...c, jobCount:cJobs.length, supportedRev, hrs, hrsPerJob };
   }).sort((a,b) => b.supportedRev - a.supportedRev);
-
   hbody.innerHTML = helperData.length === 0
     ? `<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;font-size:12px;">No helpers logged yet</td></tr>`
     : helperData.map(h => {
@@ -1580,7 +1914,6 @@ function renderEmployees(jobs) {
         </tr>`;
       }).join('');
 }
-
 function renderJobLog(jobs) {
   const el    = document.getElementById('jobsList');
   const count = document.getElementById('jobCount');
@@ -1594,18 +1927,963 @@ function renderJobLog(jobs) {
     const t    = truck(j.truck);
     const crew = j.crew.map(id => CREW.find(c=>c.id===id)?.name).filter(Boolean).join(', ');
     const hrs  = Object.values(j.hours).reduce((a,b)=>a+b,0);
+    const shopTag = j.shop ? `<span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(88,166,255,0.12);color:var(--truck-a);margin-left:4px;">${j.shop}</span>` : '';
+    const addrTag = j.address ? `<span style="color:var(--green);margin-left:4px;" title="${j.address}">📍</span>` : '';
     return `<div class="job-item">
       <span class="job-truck-tag" style="background:${t?.bg||'#222'};color:${t?.color||'#fff'}">${j.truck}</span>
       <div class="job-info">
-        <div class="job-name">${j.name} <span style="font-size:11px;color:var(--muted)">${j.type}</span></div>
+        <div class="job-name">${j.name} <span style="font-size:11px;color:var(--muted)">${j.type}</span>${shopTag}${addrTag}</div>
         <div class="job-meta">${j.date||''} · ${crew} · ${hrs.toFixed(1)}h</div>
       </div>
       <span class="job-rev">${fmt(j.rev)}</span>
+      <button class="job-edit" onclick="openEditJobModal(${j.id})" title="Edit shop / address">✎</button>
       <button class="job-delete" onclick="deleteJob(${j.id})">×</button>
     </div>`;
   }).join('');
 }
-</script>
 
+// ════════════════════════════════════════════════════════════════════════════
+// ═══ MILEAGE FEATURE ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════
+
+function initMileageSettingsUI() {
+  const a = getAddresses();
+  document.getElementById('addr_home_joseph').value   = a.home.joseph   || '';
+  document.getElementById('addr_home_anthony').value  = a.home.anthony  || '';
+  document.getElementById('addr_home_david').value    = a.home.david    || '';
+  document.getElementById('addr_shop_ceragres').value  = a.shops['Ceragres']  || '';
+  document.getElementById('addr_shop_italnord').value  = a.shops['Italnord']  || '';
+  document.getElementById('addr_shop_chateau').value   = a.shops['Chateau']   || '';
+  document.getElementById('addr_shop_stoneage').value  = a.shops['Stone Age'] || '';
+  document.getElementById('addr_shop_eurostone').value = a.shops['Eurostone'] || '';
+  if(getAppsScriptUrl()) document.getElementById('appsScriptInput').value   = getAppsScriptUrl();
+}
+
+function toggleMileageSettings() {
+  document.getElementById('mileageSettings').classList.toggle('open');
+}
+
+function saveOrsKey() {
+  const v = document.getElementById('orsKeyInput').value.trim();
+  if(!v) return;
+  localStorage.setItem('spartan_ors_key', v);
+  document.getElementById('orsKeyInput').value = '';
+  document.getElementById('orsKeyInput').placeholder = '••••••••••••• (saved)';
+  flashStatus('ORS key saved');
+}
+function saveAppsScriptUrl() {
+  const v = document.getElementById('appsScriptInput').value.trim();
+  if(!v) return;
+  localStorage.setItem('spartan_apps_script_url', v);
+  flashStatus('Apps Script URL saved');
+}
+function saveAddresses() {
+  const a = {
+    home: {
+      joseph:  document.getElementById('addr_home_joseph').value.trim()   || DEFAULT_HOME.joseph,
+      anthony: document.getElementById('addr_home_anthony').value.trim()  || DEFAULT_HOME.anthony,
+      david:   document.getElementById('addr_home_david').value.trim()    || DEFAULT_HOME.david,
+    },
+    shops: {
+      'Ceragres':  document.getElementById('addr_shop_ceragres').value.trim()  || DEFAULT_SHOPS['Ceragres'],
+      'Italnord':  document.getElementById('addr_shop_italnord').value.trim()  || DEFAULT_SHOPS['Italnord'],
+      'Chateau':   document.getElementById('addr_shop_chateau').value.trim()   || DEFAULT_SHOPS['Chateau'],
+      'Stone Age': document.getElementById('addr_shop_stoneage').value.trim()  || DEFAULT_SHOPS['Stone Age'],
+      'Eurostone': document.getElementById('addr_shop_eurostone').value.trim() || DEFAULT_SHOPS['Eurostone'],
+    }
+  };
+  saveAddressesToStorage(a);
+  flashStatus('Addresses saved');
+}
+function flashStatus(msg) {
+  const info = document.getElementById('mileageCacheInfo');
+  if(!info) return;
+  const prev = info.textContent;
+  info.textContent = '✓ ' + msg;
+  info.style.color = 'var(--green)';
+  setTimeout(() => { info.textContent = prev; info.style.color = 'var(--muted)'; updateCacheInfo(); }, 2000);
+}
+function updateCacheInfo() {
+  const geo = Object.keys(getGeoCache()).length;
+  const leg = Object.keys(getLegCache()).length;
+  const info = document.getElementById('mileageCacheInfo');
+  if(info) info.textContent = `${geo} addresses geocoded · ${leg} legs cached`;
+}
+
+// ─── GEOCODING (via Apps Script / Google Maps) ─────────────────────────────
+async function geocode(address) {
+  if(!address) return null;
+  const key = (address||'').trim().toLowerCase();
+  const cache = getGeoCache();
+  if(cache[key]) return cache[key];
+  const url = getAppsScriptUrl();
+  if(!url) throw new Error('Apps Script URL not set — add it in Mileage Settings');
+  const fullUrl = `${url}?action=geocode&text=${encodeURIComponent(address)}`;
+  const res = await fetch(fullUrl);
+  if(!res.ok) {
+    console.warn('Geocode fetch failed', address, res.status);
+    return null;
+  }
+  const data = await res.json();
+  if(!data.ok) {
+    console.warn('Geocode returned error for:', address, data.error || data.status);
+    return null;
+  }
+  const coords = { lng: data.lng, lat: data.lat, label: data.label || address };
+  cache[key] = coords;
+  saveGeoCache(cache);
+  return coords;
+}
+
+// ─── DIRECTIONS (via Apps Script / Google Maps) ────────────────────────────
+function legKey(a, b) {
+  // Round to ~10m to keep cache hits high on near-identical coords
+  const r = x => Math.round(x * 10000) / 10000;
+  return `${r(a.lng)},${r(a.lat)}->${r(b.lng)},${r(b.lat)}`;
+}
+async function legDistanceKm(a, b) {
+  if(!a || !b) return null;
+  const cache = getLegCache();
+  const k = legKey(a, b);
+  if(cache[k] != null) return cache[k];
+  const url = getAppsScriptUrl();
+  if(!url) throw new Error('Apps Script URL not set — add it in Mileage Settings');
+  const fullUrl = `${url}?action=directions&from=${a.lat},${a.lng}&to=${b.lat},${b.lng}`;
+  const res = await fetch(fullUrl);
+  if(!res.ok) {
+    console.warn('Directions fetch failed', res.status);
+    return null;
+  }
+  const data = await res.json();
+  if(!data.ok) {
+    console.warn('Directions returned error:', data.error || data.status);
+    return null;
+  }
+  const km = data.km;
+  cache[k] = km;
+  saveLegCache(cache);
+  return km;
+}
+
+// ─── CALENDAR (via Apps Script proxy) ──────────────────────────────────────
+let calendarEventsCache = null;
+async function fetchCalendarEvents() {
+  const url = getAppsScriptUrl();
+  if(!url) return [];
+  if(calendarEventsCache) return calendarEventsCache;
+  // Pull a generous window: -8 weeks to +2 weeks
+  const today = new Date();
+  const from  = new Date(today); from.setDate(from.getDate() - 56);
+  const to    = new Date(today); to.setDate(to.getDate() + 14);
+  const qs = `?action=events&from=${from.toISOString().slice(0,10)}&to=${to.toISOString().slice(0,10)}`;
+  try {
+    const res = await fetch(url + qs, { method:'GET' });
+    if(!res.ok) { console.warn('Calendar proxy failed', res.status); return []; }
+    const data = await res.json();
+    calendarEventsCache = Array.isArray(data.events) ? data.events : [];
+    return calendarEventsCache;
+  } catch(e) {
+    console.warn('Calendar fetch error', e);
+    return [];
+  }
+}
+
+// Words that appear in tons of calendar events and shouldn't drive a match
+// (e.g. "Spartan p/u Eurostone" appears on many supplier pickup events)
+const FUZZY_STOPWORDS = new Set([
+  'spartan','install','installation','residence','résidence','resident',
+  'pu','am','pm','the','for','and','of','de','la','le','du','des','rue','avenue',
+  'ceragres','italnord','chateau','château','stoneage','stone','age','eurostone','euro','ceragre',
+  'tbd','tbdmeasure','measure','pdm','si','no','more','sink','repair','repairs','office',
+  'job','site','condo','condos','sutton','far','bs','reinstall','deliver','glue',
+  'walls','wall','foyer','vanity','vanite','vanité','kitchen','cuisine','sdb',
+  'phase','b','s'
+]);
+
+function fuzzyMatchCalendar(jobName, jobDate, events) {
+  if(!jobName || !events.length) return null;
+
+  // Extract SI numbers from the job name — these are unique identifiers.
+  // If the job name has an SI number, ONLY calendar events containing that
+  // same SI number are allowed to match. No fuzzy fallback.
+  const siRegex = /\bSI\d{3,}\b/gi;
+  const siIds = (jobName.match(siRegex) || []).map(s => s.toLowerCase());
+
+  const target = jobName.toLowerCase().replace(/[^a-z0-9 ]/g,'').split(/\s+/).filter(Boolean);
+  if(target.length === 0 && siIds.length === 0) return null;
+  const jobD = new Date(jobDate + 'T00:00:00');
+
+  let best = null, bestScore = 0;
+  for(const ev of events) {
+    if(!ev.location) continue;
+    const evName = (ev.title||'').toLowerCase().replace(/[^a-z0-9 ]/g,'');
+
+    // STRICT: if job has SI id(s), skip any event that doesn't contain one
+    if(siIds.length > 0) {
+      const hasSi = siIds.some(id => evName.includes(id));
+      if(!hasSi) continue;
+    }
+
+    let nameScore = 0;
+    let meaningful = 0; // non-stopword, non-trivial matches
+    for(const word of target) {
+      if(word.length < 3) continue;
+      if(!evName.includes(word)) continue;
+      if(/^si\d{3,}$/.test(word)) {
+        // SI number — big bonus (guaranteed match since we already filtered above)
+        nameScore += 8;
+        meaningful++;
+      } else if(/^[a-z]{0,3}\d{3,}$/.test(word)) {
+        // Other ID-like token
+        nameScore += 6;
+        meaningful++;
+      } else if(FUZZY_STOPWORDS.has(word)) {
+        nameScore += 1;
+      } else {
+        nameScore += 3;
+        meaningful++;
+      }
+    }
+    // If we didn't use SI matching, require at least one meaningful word match
+    if(siIds.length === 0 && meaningful === 0) continue;
+
+    let score = nameScore;
+    if(ev.date) {
+      const evD = new Date(ev.date + 'T00:00:00');
+      const daysBefore = Math.round((jobD - evD) / 86400000);
+      if(daysBefore >= 14 && daysBefore <= 35) score += 3;
+      else if(daysBefore >= 0 && daysBefore <= 56) score += 1;
+    }
+    if(score > bestScore) { bestScore = score; best = ev; }
+  }
+  return bestScore >= 4 ? best : null;
+}
+
+// ─── MILEAGE WEEK SELECTION ────────────────────────────────────────────────
+function getSelectedMileageWeeks() {
+  try {
+    const raw = localStorage.getItem('spartan_mileage_weeks');
+    if(raw) {
+      const arr = JSON.parse(raw);
+      // Filter out weeks that no longer exist (renamed/deleted)
+      const valid = arr.filter(w => state.weeks.includes(w));
+      if(valid.length > 0) return valid;
+    }
+  } catch(e) {}
+  return [state.currentWeek];
+}
+function saveSelectedMileageWeeks(weeks) {
+  localStorage.setItem('spartan_mileage_weeks', JSON.stringify(weeks));
+}
+function toggleMileageWeek(week) {
+  const current = getSelectedMileageWeeks();
+  const idx = current.indexOf(week);
+  if(idx >= 0) {
+    if(current.length === 1) return; // don't allow zero selection
+    current.splice(idx, 1);
+  } else {
+    current.push(week);
+  }
+  saveSelectedMileageWeeks(current);
+  mileageResult = null;
+  renderMileage();
+}
+function setMileageWeeksAll() {
+  saveSelectedMileageWeeks([...state.weeks]);
+  mileageResult = null;
+  renderMileage();
+}
+function setMileageWeeksCurrent() {
+  saveSelectedMileageWeeks([state.currentWeek]);
+  mileageResult = null;
+  renderMileage();
+}
+function renderMileageWeekChips() {
+  const el = document.getElementById('mileageWeekChips');
+  if(!el) return;
+  const selected = new Set(getSelectedMileageWeeks());
+  el.innerHTML = state.weeks.map(w => {
+    const on = selected.has(w);
+    return `<button class="mileage-week-chip${on?' on':''}" onclick="toggleMileageWeek('${w.replace(/'/g, "\\'")}')">${escapeHtml(w)}</button>`;
+  }).join('');
+}
+
+// ─── MILEAGE CALCULATION ───────────────────────────────────────────────────
+// Build per-installer per-day routes for the selected week(s).
+// Returns: { [dateStr]: { [installerId]: { jobs, legs, totalKm, error } } }
+async function computeMileageForWeek() {
+  const emptyTotals = { joseph:{km:0,days:0}, anthony:{km:0,days:0}, david:{km:0,days:0} };
+  const selectedWeeks = getSelectedMileageWeeks();
+  const jobs = [];
+  selectedWeeks.forEach(w => {
+    if(state.jobs[w]) jobs.push(...state.jobs[w]);
+  });
+  if(jobs.length === 0) return { days: {}, totals: emptyTotals };
+
+  const addresses = getAddresses();
+  const byDay = {};
+
+  // Group by date, then by installer (who was on the crew)
+  // Note: Job Log displays newest-first, but for a driving route we want
+  // chronological visit order → sort by job.id (timestamp) ascending within a day.
+  //
+  // Rule: an installer is attributed to a job if they're on the crew OR if it's
+  // their truck (truck owner always gets the route — they load at the shop and
+  // drop off slabs, even if they weren't on the install crew for the full job).
+  const sortedJobs = [...jobs].sort((a,b) => (a.id||0) - (b.id||0));
+  sortedJobs.forEach(j => {
+    if(!j.date) return;
+    const installersOnJob = new Set(j.crew.filter(id => ['joseph','anthony','david'].includes(id)));
+    // Add the truck owner so they get credit for the shop run + drive
+    const truckOwner = CREW.find(c => c.truckId === j.truck)?.id;
+    if(truckOwner && ['joseph','anthony','david'].includes(truckOwner)) {
+      installersOnJob.add(truckOwner);
+    }
+    if(installersOnJob.size === 0) return;
+    byDay[j.date] = byDay[j.date] || {};
+    installersOnJob.forEach(id => {
+      byDay[j.date][id] = byDay[j.date][id] || [];
+      byDay[j.date][id].push(j);
+    });
+  });
+
+  // For each day/installer: build waypoint list, geocode, compute legs
+  const days = {};
+  const totals = { joseph:0, anthony:0, david:0 };
+  const totalDays = { joseph:new Set(), anthony:new Set(), david:new Set() };
+
+  // Collect all addresses for this run so we geocode each one only once
+  const needGeocode = new Set();
+  Object.entries(byDay).forEach(([date, perInstaller]) => {
+    Object.entries(perInstaller).forEach(([inst, jobList]) => {
+      needGeocode.add(addresses.home[inst]);
+      const shops = [];
+      jobList.forEach(j => {
+        if(j.shop && !shops.includes(j.shop)) shops.push(j.shop);
+        if(j.address) needGeocode.add(j.address);
+      });
+      shops.forEach(s => needGeocode.add(addresses.shops[s]));
+    });
+  });
+
+  // Geocode all addresses first
+  const geoMap = {};
+  for(const addr of needGeocode) {
+    if(!addr) continue;
+    try {
+      const g = await geocode(addr);
+      if(g) geoMap[addr.trim().toLowerCase()] = g;
+    } catch(e) {
+      console.warn('Geocode failed:', addr, e.message);
+    }
+  }
+
+  // Compute legs for each installer/day
+  for(const date of Object.keys(byDay)) {
+    days[date] = {};
+    for(const inst of Object.keys(byDay[date])) {
+      const jobList = byDay[date][inst];
+      const homeAddr = addresses.home[inst];
+      const home = geoMap[(homeAddr||'').trim().toLowerCase()];
+      if(!home) {
+        days[date][inst] = { jobs: jobList, legs: [], totalKm: 0, error: 'Home address could not be geocoded: ' + homeAddr };
+        continue;
+      }
+      // Distinct shops in tracker order — ONLY for jobs in THIS installer's truck
+      // (if installer was a passenger on someone else's truck job, no shop stop for them)
+      const myTruckId = CREW.find(c => c.id === inst)?.truckId;
+      const shopNames = [];
+      jobList.forEach(j => {
+        if(j.shop && j.truck === myTruckId && !shopNames.includes(j.shop)) {
+          shopNames.push(j.shop);
+        }
+      });
+
+      // Waypoints: home → shops → jobs → home
+      const waypoints = [{ label: 'Home ('+inst+')', coords: home, kind: 'home' }];
+      let missingAddr = null;
+      for(const shopName of shopNames) {
+        const shopAddr = addresses.shops[shopName];
+        const g = geoMap[(shopAddr||'').trim().toLowerCase()];
+        if(g) waypoints.push({ label: shopName, coords: g, kind: 'shop' });
+      }
+      for(const j of jobList) {
+        if(!j.address) { missingAddr = j.name; break; }
+        const g = geoMap[j.address.trim().toLowerCase()];
+        if(!g) { missingAddr = j.name + ' (address could not be geocoded: ' + j.address + ')'; break; }
+        waypoints.push({ label: j.name, coords: g, kind: 'job' });
+      }
+      if(missingAddr) {
+        days[date][inst] = { jobs: jobList, legs: [], totalKm: 0, error: 'Missing/unresolved address for: ' + missingAddr };
+        continue;
+      }
+      waypoints.push({ label: 'Home ('+inst+')', coords: home, kind: 'home' });
+
+      // Compute legs
+      const legs = [];
+      let totalKm = 0;
+      let hadError = null;
+      for(let i = 0; i < waypoints.length - 1; i++) {
+        try {
+          const km = await legDistanceKm(waypoints[i].coords, waypoints[i+1].coords);
+          if(km == null) { hadError = 'Leg ' + waypoints[i].label + ' → ' + waypoints[i+1].label + ' could not be routed'; break; }
+          legs.push({ from: waypoints[i], to: waypoints[i+1], km });
+          totalKm += km;
+        } catch(e) {
+          hadError = e.message;
+          break;
+        }
+      }
+      if(hadError) {
+        days[date][inst] = { jobs: jobList, legs, totalKm, error: hadError };
+      } else {
+        days[date][inst] = { jobs: jobList, legs, totalKm: Math.round(totalKm*10)/10 };
+        totals[inst] += totalKm;
+        totalDays[inst].add(date);
+      }
+    }
+  }
+  // ── Save per-week snapshots so we can show this data later without recomputing ──
+  const dateToWeekMap = {};
+  selectedWeeks.forEach(w => {
+    (state.jobs[w] || []).forEach(j => {
+      if(j.date && !dateToWeekMap[j.date]) dateToWeekMap[j.date] = w;
+    });
+  });
+  const byWeekSnap = {};
+  selectedWeeks.forEach(w => {
+    byWeekSnap[w] = {
+      joseph:  { km:0, daysSet:new Set() },
+      anthony: { km:0, daysSet:new Set() },
+      david:   { km:0, daysSet:new Set() },
+    };
+  });
+  Object.entries(days).forEach(([date, perInst]) => {
+    const w = dateToWeekMap[date];
+    if(!w || !byWeekSnap[w]) return;
+    ['joseph','anthony','david'].forEach(inst => {
+      const r = perInst[inst];
+      if(r && !r.error && r.totalKm > 0) {
+        byWeekSnap[w][inst].km += r.totalKm;
+        byWeekSnap[w][inst].daysSet.add(date);
+      }
+    });
+  });
+  const snapshots = getWeekSnapshots();
+  const nowIso = new Date().toISOString();
+  selectedWeeks.forEach(w => {
+    const bw = byWeekSnap[w];
+    const rev = revenueByInstaller(state.jobs[w] || []);
+    snapshots[w] = {
+      joseph:  { km: Math.round(bw.joseph.km *10)/10, days: bw.joseph.daysSet.size,  rev: Math.round(rev.joseph *100)/100 },
+      anthony: { km: Math.round(bw.anthony.km*10)/10, days: bw.anthony.daysSet.size, rev: Math.round(rev.anthony*100)/100 },
+      david:   { km: Math.round(bw.david.km  *10)/10, days: bw.david.daysSet.size,   rev: Math.round(rev.david  *100)/100 },
+      computedAt: nowIso
+    };
+  });
+  saveWeekSnapshots(snapshots);
+
+  return {
+    days,
+    totals: {
+      joseph:  { km: Math.round(totals.joseph *10)/10, days: totalDays.joseph.size  },
+      anthony: { km: Math.round(totals.anthony*10)/10, days: totalDays.anthony.size },
+      david:   { km: Math.round(totals.david  *10)/10, days: totalDays.david.size   },
+    }
+  };
+}
+
+// ─── MILEAGE UI ────────────────────────────────────────────────────────────
+let mileageResult = null;
+
+// Jobs from the currently-selected mileage weeks (may span multiple weeks)
+function selectedMileageJobs() {
+  const selectedWeeks = getSelectedMileageWeeks();
+  const jobs = [];
+  selectedWeeks.forEach(w => {
+    if(state.jobs[w]) jobs.push(...state.jobs[w]);
+  });
+  return jobs;
+}
+
+function renderMileage() {
+  renderMileageWeekChips();
+  renderMileageTotals(mileageResult?.totals || { joseph:{km:0,days:0}, anthony:{km:0,days:0}, david:{km:0,days:0} });
+  renderMileageBanner();
+  renderMileageWeekSummary();
+  renderMileageBody();
+  updateCacheInfo();
+  // Print subtitle = selected weeks
+  const sub = document.getElementById('mileagePrintSub');
+  if(sub) {
+    const w = getSelectedMileageWeeks();
+    sub.textContent = `${w.join(' · ')} — generated ${new Date().toLocaleDateString('en-CA')}`;
+  }
+}
+
+// Per-installer revenue for any list of jobs (uses revPct split if set,
+// otherwise falls back to even split across truck installers on the crew).
+function revenueByInstaller(jobs) {
+  const rev = { joseph:0, anthony:0, david:0 };
+  jobs.forEach(j => {
+    j.crew.forEach(id => {
+      if(!['joseph','anthony','david'].includes(id)) return;
+      if(j.revPct && j.revPct[id] !== undefined) {
+        rev[id] += j.rev * j.revPct[id] / 100;
+      } else {
+        const truckCrew = j.crew.filter(c => ['joseph','anthony','david'].includes(c));
+        if(truckCrew.length > 0) rev[id] += j.rev / truckCrew.length;
+      }
+    });
+  });
+  return rev;
+}
+
+function renderMileageTotals(_ignoredTotals) {
+  const colors = { joseph: '#e8a020', anthony: '#58a6ff', david: '#bc8cff' };
+  const el = document.getElementById('mileageTotals');
+  const selected = getSelectedMileageWeeks();
+  const snapshots = getWeekSnapshots();
+
+  // Aggregate saved per-week snapshots across the selected weeks. Weeks
+  // without a snapshot contribute zero (user will see "N uncalculated" note).
+  const agg = { joseph:{km:0,days:0,rev:0}, anthony:{km:0,days:0,rev:0}, david:{km:0,days:0,rev:0} };
+  let snappedCount = 0, missing = 0;
+  selected.forEach(w => {
+    const s = snapshots[w];
+    if(s) {
+      snappedCount++;
+      ['joseph','anthony','david'].forEach(inst => {
+        agg[inst].km   += s[inst].km;
+        agg[inst].days += s[inst].days;
+        agg[inst].rev  += s[inst].rev;
+      });
+    } else {
+      missing++;
+    }
+  });
+
+  const weekLabel = selected.length > 1 ? ` · ${snappedCount}/${selected.length} wks` : '';
+  el.innerHTML = ['joseph','anthony','david'].map(inst => {
+    const name = CREW.find(c=>c.id===inst)?.name || inst;
+    const t = agg[inst];
+    const avgPerDay = t.days > 0 ? (t.km / t.days) : 0;
+    const perKm = t.km > 0 ? t.rev / t.km : 0;
+    return `<div class="mileage-total-card" data-installer="${inst}">
+      <div class="mileage-total-name" style="color:${colors[inst]}">${name}</div>
+      <div class="mileage-total-km">${t.km.toFixed(1)}<span class="unit">km</span></div>
+      <div class="mileage-total-sub">${t.days} day${t.days!==1?'s':''} · ${avgPerDay.toFixed(1)} km/day${weekLabel}</div>
+      <div class="mileage-total-sub" style="margin-top:6px;padding-top:6px;border-top:1px solid var(--border);">
+        <span style="color:${colors[inst]};font-weight:600;">${fmt(t.rev)}</span> revenue
+        ${t.km > 0 ? ` · <b style="color:var(--text);">${fmt(perKm)}/km</b>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── WEEK SUMMARY TABLE (multi-week rollup) ───────────────────────────────
+function renderMileageWeekSummary() {
+  const el = document.getElementById('mileageWeekSummary');
+  if(!el) return;
+  const selectedWeeks = getSelectedMileageWeeks();
+  if(selectedWeeks.length < 2) { el.innerHTML = ''; return; }
+
+  // Prefer saved snapshots (from previous Calculate runs) so we don't need a
+  // fresh compute just to show the table. Weeks without a snapshot show as "—".
+  const snapshots = getWeekSnapshots();
+  const byWeek = {};
+  let missingCount = 0;
+  selectedWeeks.forEach(w => {
+    const snap = snapshots[w];
+    if(snap) {
+      byWeek[w] = {
+        joseph:  { km: snap.joseph.km,  days: snap.joseph.days,  rev: snap.joseph.rev,  computedAt: snap.computedAt },
+        anthony: { km: snap.anthony.km, days: snap.anthony.days, rev: snap.anthony.rev, computedAt: snap.computedAt },
+        david:   { km: snap.david.km,   days: snap.david.days,   rev: snap.david.rev,   computedAt: snap.computedAt },
+        hasSnap: true
+      };
+    } else {
+      byWeek[w] = {
+        joseph:  { km:0, days:0, rev:0 },
+        anthony: { km:0, days:0, rev:0 },
+        david:   { km:0, days:0, rev:0 },
+        hasSnap: false
+      };
+      missingCount++;
+    }
+  });
+
+  // Cell helper: km, days, revenue, $/km
+  const cell = (colorClass, c) => {
+    const km = c.km, days = c.days, rev = c.rev;
+    const perKm = km > 0 ? rev/km : 0;
+    return `<td class="${colorClass}">
+      ${km.toFixed(1)} km <span style="color:var(--muted);font-size:11px;">(${days}d)</span>
+      <div style="font-size:11px;color:var(--muted);font-weight:400;margin-top:2px;">
+        ${fmt(rev)} · ${km > 0 ? fmt(perKm)+'/km' : '—'}
+      </div>
+    </td>`;
+  };
+
+  // Render rows
+  const rows = selectedWeeks.map(w => {
+    const bw = byWeek[w];
+    if(!bw.hasSnap) {
+      return `<tr style="opacity:0.55;">
+        <td>${escapeHtml(w)} <span style="font-size:10px;color:var(--muted);">(not calculated)</span></td>
+        <td colspan="4" style="color:var(--muted);text-align:center;font-style:italic;font-size:12px;">
+          Select only this week and click ↻ Calculate Mileage to populate
+        </td>
+      </tr>`;
+    }
+    const totalKm = bw.joseph.km + bw.anthony.km + bw.david.km;
+    const totalRev = bw.joseph.rev + bw.anthony.rev + bw.david.rev;
+    const totalPerKm = totalKm > 0 ? totalRev/totalKm : 0;
+    return `<tr>
+      <td>${escapeHtml(w)}</td>
+      ${cell('wks-km-joseph',  bw.joseph)}
+      ${cell('wks-km-anthony', bw.anthony)}
+      ${cell('wks-km-david',   bw.david)}
+      <td style="color:var(--text);font-weight:600;">
+        ${totalKm.toFixed(1)} km
+        <div style="font-size:11px;color:var(--muted);font-weight:400;margin-top:2px;">
+          ${fmt(totalRev)} · ${totalKm > 0 ? fmt(totalPerKm)+'/km' : '—'}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Grand totals — only sum weeks that have a snapshot
+  const grand = { joseph:{km:0,days:0,rev:0}, anthony:{km:0,days:0,rev:0}, david:{km:0,days:0,rev:0} };
+  selectedWeeks.forEach(w => {
+    const bw = byWeek[w];
+    if(!bw.hasSnap) return;
+    ['joseph','anthony','david'].forEach(inst => {
+      grand[inst].km  += bw[inst].km;
+      grand[inst].days += bw[inst].days;
+      grand[inst].rev += bw[inst].rev;
+    });
+  });
+  const gTotalKm = grand.joseph.km + grand.anthony.km + grand.david.km;
+  const gTotalRev = grand.joseph.rev + grand.anthony.rev + grand.david.rev;
+  const gTotalPerKm = gTotalKm > 0 ? gTotalRev/gTotalKm : 0;
+
+  const snapCount = selectedWeeks.length - missingCount;
+  const missingNote = missingCount > 0
+    ? ` · <span style="color:var(--accent);">${missingCount} uncalculated</span>`
+    : '';
+
+  el.innerHTML = `
+    <div class="mileage-week-summary">
+      <div class="mileage-week-summary-header">
+        <div class="mileage-week-summary-title">Week Summary · ${snapCount}/${selectedWeeks.length} weeks${missingNote}</div>
+        <div style="font-size:11px;color:var(--muted);">
+          Grand total: <b style="color:var(--text);">${gTotalKm.toFixed(1)} km</b>
+          · <b style="color:var(--text);">${fmt(gTotalRev)}</b>
+          · <b style="color:var(--accent);">${gTotalKm > 0 ? fmt(gTotalPerKm)+'/km' : '—'}</b>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th>Joseph<div style="font-weight:400;color:#666;margin-top:2px;">km · $ · $/km</div></th>
+            <th>Anthony<div style="font-weight:400;color:#666;margin-top:2px;">km · $ · $/km</div></th>
+            <th>David<div style="font-weight:400;color:#666;margin-top:2px;">km · $ · $/km</div></th>
+            <th>Total<div style="font-weight:400;color:#666;margin-top:2px;">km · $ · $/km</div></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows}
+          <tr class="summary-total">
+            <td>TOTAL</td>
+            ${cell('wks-km-joseph',  grand.joseph)}
+            ${cell('wks-km-anthony', grand.anthony)}
+            ${cell('wks-km-david',   grand.david)}
+            <td>
+              ${gTotalKm.toFixed(1)} km
+              <div style="font-size:11px;color:var(--muted);font-weight:400;margin-top:2px;">
+                ${fmt(gTotalRev)} · ${gTotalKm > 0 ? fmt(gTotalPerKm)+'/km' : '—'}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+// ─── PRINT / PDF ───────────────────────────────────────────────────────────
+function printMileageReport() {
+  if(!mileageResult) {
+    alert('Click Calculate Mileage first so there is something to print.');
+    return;
+  }
+  window.print();
+}
+
+function renderMileageBanner() {
+  const el = document.getElementById('mileageBanner');
+  const jobs = selectedMileageJobs();
+  const installerJobs = jobs.filter(j =>
+    j.crew.some(id => ['joseph','anthony','david'].includes(id)) ||
+    ['Joseph','Anthony','David'].includes(j.truck)
+  );
+  const missing = installerJobs.filter(j => !j.address);
+  const noApps = !getAppsScriptUrl();
+  let parts = [];
+  if(noApps) parts.push(`<b>Apps Script URL missing.</b> Add it in Settings above — needed for calendar, geocoding, and distances.`);
+  if(missing.length > 0) parts.push(`<b>${missing.length} job${missing.length>1?'s':''}</b> still need a site address.`);
+  if(parts.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="mileage-banner"><span class="banner-icon">⚠</span><span class="banner-msg">${parts.join(' &nbsp;·&nbsp; ')}</span></div>`;
+}
+
+function renderMileageBody() {
+  const el = document.getElementById('mileageBody');
+  const jobs = selectedMileageJobs();
+  const installerJobs = jobs.filter(j =>
+    j.crew.some(id => ['joseph','anthony','david'].includes(id)) ||
+    ['Joseph','Anthony','David'].includes(j.truck)
+  );
+  if(installerJobs.length === 0) {
+    el.innerHTML = '<div class="mileage-empty">No installer jobs in the selected week(s) yet. Log jobs in the Revenue tab or select more weeks.</div>';
+    return;
+  }
+  if(!mileageResult) {
+    el.innerHTML = '<div class="mileage-empty">Click <b>↻ Calculate Mileage</b> above to compute routes for this week.</div>';
+    return;
+  }
+  const colors = { joseph: '#e8a020', anthony: '#58a6ff', david: '#bc8cff' };
+  const names  = { joseph: 'Joseph',  anthony: 'Anthony',  david: 'David'   };
+  const dates = Object.keys(mileageResult.days).sort((a,b) => b.localeCompare(a));
+  if(dates.length === 0) {
+    el.innerHTML = '<div class="mileage-empty">No days with installer jobs in this week.</div>';
+    return;
+  }
+  el.innerHTML = dates.map(date => {
+    const dayObj = mileageResult.days[date];
+    const installerIds = ['joseph','anthony','david'].filter(i => dayObj[i]);
+    const dayDate = new Date(date + 'T00:00:00').toLocaleDateString('en-CA', { weekday:'long', month:'short', day:'numeric' });
+    const routes = installerIds.map(inst => {
+      const r = dayObj[inst];
+      if(r.error) {
+        return `<div class="mileage-route-card">
+          <div class="mileage-route-head">
+            <div class="mileage-route-installer"><span class="dot" style="background:${colors[inst]}"></span>${names[inst]}</div>
+            <div class="mileage-route-total" style="color:var(--red);font-size:14px;">—</div>
+          </div>
+          <div class="mileage-route-err">${r.error}</div>
+        </div>`;
+      }
+      const legsHtml = r.legs.map(lg => {
+        return `<div class="mileage-leg">
+          <div class="mileage-leg-path">
+            <span class="waypoint ${lg.from.kind}">${escapeHtml(lg.from.label)}</span>
+            <span class="arrow">→</span>
+            <span class="waypoint ${lg.to.kind}">${escapeHtml(lg.to.label)}</span>
+          </div>
+          <div class="mileage-leg-km">${lg.km.toFixed(1)} km</div>
+        </div>`;
+      }).join('');
+      return `<div class="mileage-route-card">
+        <div class="mileage-route-head">
+          <div class="mileage-route-installer"><span class="dot" style="background:${colors[inst]}"></span>${names[inst]} <span style="color:var(--muted);font-size:11px;font-weight:400;">· ${r.jobs.length} job${r.jobs.length>1?'s':''}</span></div>
+          <div class="mileage-route-total" style="color:${colors[inst]}">${r.totalKm.toFixed(1)}<span class="unit">km</span></div>
+        </div>
+        <div class="mileage-route-legs">${legsHtml}</div>
+      </div>`;
+    }).join('');
+    return `<div class="mileage-day-group">
+      <div class="mileage-day-header"><span class="day-date">${dayDate}</span></div>
+      ${routes}
+    </div>`;
+  }).join('');
+}
+
+function escapeHtml(s) {
+  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ─── CALCULATE BUTTON ─────────────────────────────────────────────────────
+async function calculateMileage() {
+  const btn = document.querySelector('.mileage-actions .btn-calc');
+  const orig = btn.textContent;
+  if(!getAppsScriptUrl()) {
+    alert('Add your Apps Script URL in Mileage Settings first. It handles calendar, geocoding, and driving distances all in one.');
+    return;
+  }
+  // First check for missing addresses (across all selected weeks)
+  const jobs = selectedMileageJobs();
+  const installerJobs = jobs.filter(j =>
+    j.crew.some(id => ['joseph','anthony','david'].includes(id)) ||
+    ['Joseph','Anthony','David'].includes(j.truck)
+  );
+  const missing = installerJobs.filter(j => !j.address);
+  if(missing.length > 0) {
+    await promptMissingAddresses();
+    // After prompt, re-read jobs in case user filled them in
+  }
+  btn.disabled = true; btn.textContent = '⋯ Computing routes...';
+  try {
+    mileageResult = await computeMileageForWeek();
+    renderMileage();
+  } catch(e) {
+    alert('Error calculating mileage: ' + e.message);
+    console.error(e);
+  } finally {
+    btn.disabled = false; btn.textContent = orig;
+  }
+}
+
+function clearMileageCache() {
+  if(!confirm('Clear all cached geocoding and route distances? Next calculation will re-fetch everything.')) return;
+  localStorage.removeItem('spartan_geo_cache');
+  localStorage.removeItem('spartan_leg_cache');
+  calendarEventsCache = null;
+  mileageResult = null;
+  flashStatus('Cache cleared');
+  renderMileage();
+}
+
+// ─── ADDRESS PROMPT MODAL ─────────────────────────────────────────────────
+let modalResolve = null;
+async function promptMissingAddresses() {
+  const jobs = selectedMileageJobs();
+  const installerJobs = jobs.filter(j =>
+    j.crew.some(id => ['joseph','anthony','david'].includes(id)) ||
+    ['Joseph','Anthony','David'].includes(j.truck)
+  );
+  const missing = installerJobs.filter(j => !j.address);
+  if(missing.length === 0) {
+    flashStatus('All jobs have addresses');
+    return;
+  }
+  // Try calendar match for each missing one
+  let calEvents = [];
+  if(getAppsScriptUrl()) {
+    calEvents = await fetchCalendarEvents();
+  }
+  const suggestions = {};
+  missing.forEach(j => {
+    const match = fuzzyMatchCalendar(j.name, j.date, calEvents);
+    if(match && match.location) suggestions[j.id] = match.location;
+  });
+  // Render modal
+  const body = document.getElementById('modalJobs');
+  body.innerHTML = missing.map(j => {
+    const s = suggestions[j.id] || '';
+    const cls = s ? 'from-cal' : '';
+    const hint = s ? `<span style="color:var(--green);font-size:10px;">Auto-matched from calendar</span>` : `<span style="color:var(--muted);font-size:10px;">Not found in calendar</span>`;
+    return `<div class="modal-job-row ${cls}" data-job-id="${j.id}">
+      <div class="modal-job-title"><span>${escapeHtml(j.name)}</span>${hint}</div>
+      <div class="modal-job-meta">${j.date} · ${j.type} · ${j.truck}</div>
+      <input class="modal-job-input" placeholder="Full address (street, city, province, postal code)" value="${escapeHtml(s)}">
+    </div>`;
+  }).join('');
+  document.getElementById('modalIntro').textContent = `${missing.length} job${missing.length>1?'s':''} still need an address. ${Object.keys(suggestions).length} auto-matched from your calendar (green borders) — verify and edit if needed.`;
+  document.getElementById('addressModal').classList.add('visible');
+  return new Promise(resolve => { modalResolve = resolve; });
+}
+function saveAddressModal() {
+  const rows = document.querySelectorAll('#modalJobs .modal-job-row');
+  const updates = {};
+  rows.forEach(r => {
+    const id = parseInt(r.dataset.jobId);
+    const v = r.querySelector('input').value.trim();
+    if(v) updates[id] = v;
+  });
+  // Persist on jobs across all weeks (in case the job lives in a different week)
+  Object.values(state.jobs).forEach(weekJobs => {
+    weekJobs.forEach(j => {
+      if(updates[j.id]) j.address = updates[j.id];
+    });
+  });
+  save();
+  renderAll();
+  closeAddressModal();
+}
+function closeAddressModal() {
+  document.getElementById('addressModal').classList.remove('visible');
+  if(modalResolve) { modalResolve(); modalResolve = null; }
+}
+
+// ─── EDIT JOB MODAL (shop + address override) ────────────────────────────
+let editingJobId = null;
+function openEditJobModal(jobId) {
+  let job = null;
+  Object.values(state.jobs).forEach(weekJobs => {
+    weekJobs.forEach(j => { if(j.id === jobId) job = j; });
+  });
+  if(!job) return;
+  editingJobId = jobId;
+  const body = document.getElementById('editJobContent');
+  const shopOpts = ['', 'Ceragres', 'Italnord', 'Chateau', 'Stone Age', 'Eurostone']
+    .map(s => `<option value="${s}" ${(job.shop||'')===s?'selected':''}>${s||'— None —'}</option>`).join('');
+  body.innerHTML = `
+    <div style="margin-bottom:14px;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+      <div style="font-size:14px;font-weight:500;">${escapeHtml(job.name)}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:3px;">
+        ${job.date} · ${job.type} · ${job.truck}'s Truck · ${fmt(job.rev)}
+      </div>
+    </div>
+    <div style="margin-bottom:12px;">
+      <label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;">Shop (material pickup)</label>
+      <select id="editJobShop" style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;">
+        ${shopOpts}
+      </select>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">
+        Only used for shop-pickup stops on this truck's route. Set to "None" for measure / repair days.
+      </div>
+    </div>
+    <div>
+      <label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;">Job Site Address</label>
+      <input type="text" id="editJobAddress" value="${escapeHtml(job.address||'')}"
+        style="width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;"
+        placeholder="Full address — copy from Google Maps if auto-match was wrong">
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">
+        If the route distance looks way off, the geocoder probably resolved this to the wrong place.
+        Open Google Maps, find the right spot, copy the full formatted address (e.g. "1720 Rue des Érables, Saint-Bruno-de-Montarville, QC J3V 4P3"), and paste it here.
+      </div>
+    </div>
+  `;
+  document.getElementById('editJobModal').classList.add('visible');
+}
+function closeEditJobModal() {
+  document.getElementById('editJobModal').classList.remove('visible');
+  editingJobId = null;
+}
+function saveEditJob() {
+  if(!editingJobId) return;
+  const newShop = document.getElementById('editJobShop').value;
+  const newAddress = document.getElementById('editJobAddress').value.trim();
+  let oldAddress = null;
+  const affectedWeek = weekOfJob(editingJobId);
+  Object.values(state.jobs).forEach(weekJobs => {
+    weekJobs.forEach(j => {
+      if(j.id === editingJobId) {
+        oldAddress = j.address;
+        j.shop = newShop;
+        j.address = newAddress;
+      }
+    });
+  });
+  invalidateWeekSnapshot(affectedWeek);
+  // If address changed, invalidate caches so next mileage calc uses fresh geocode
+  if((oldAddress||'') !== newAddress) {
+    const geoCache = getGeoCache();
+    if(oldAddress) delete geoCache[oldAddress.trim().toLowerCase()];
+    if(newAddress) delete geoCache[newAddress.trim().toLowerCase()];
+    saveGeoCache(geoCache);
+    // Wipe leg cache too — old legs may have used old coords
+    localStorage.removeItem('spartan_leg_cache');
+    mileageResult = null;
+    flashStatus('Saved — click Calculate Mileage to refresh routes');
+  } else {
+    flashStatus('Saved');
+  }
+  save();
+  renderAll();
+  closeEditJobModal();
+}
+</script>
 </body>
 </html>
